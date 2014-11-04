@@ -4,7 +4,6 @@ Created on Oct 29, 2014
 @author: revaz
 '''
 import unittest
-from PIL import Image   
 from fourier.Helper import Helper
 
 class Test(unittest.TestCase):
@@ -17,11 +16,10 @@ class Test(unittest.TestCase):
         
         
     def test_draw_circle(self):
-        
-        im = Image.open('bauckhage.jpg', 'r')
-        newImage = Helper.draw_circle(im, 20, 30, True) 
-        newImage.show() 
-
+        im = Helper.read_image('bauckhage.jpg', as_array=True)
+        newImageArray = Helper.draw_circle(im, 30, 50, True) 
+        newImage = Helper.create_image(newImageArray)
+        newImage.show()
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
