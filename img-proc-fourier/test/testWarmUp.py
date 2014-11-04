@@ -19,7 +19,7 @@ class Test(unittest.TestCase):
     def test_draw_circle(self):
         
         im = Image.open('bauckhage.jpg', 'r')
-        newImage = Helper.draw_circle(im, 20, 30) 
+        newImage = Helper.draw_circle(im, 20, 30, True) 
         newImage.show() 
 
 
