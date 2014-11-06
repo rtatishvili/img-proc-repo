@@ -1,23 +1,20 @@
-'''
-Created on Oct 29, 2014
-
-@author: revaz
-'''
 import unittest
-from fourier.Helper import Helper
+from fourier.image_io import read_image
+from fourier.image_manip import euclidean_distance
+from fourier.image_manip import draw_circle
 
 class Test(unittest.TestCase):
 
     def test_euclidean_distance(self):
         
-        self.assertAlmostEqual(Helper.euclidean_distance([1, 1], [2, 2]), 1.414, 3)
-        self.assertAlmostEqual(Helper.euclidean_distance([1,1,1], [2,2,2]), 1.732, 3)
-        self.assertRaises(RuntimeError, Helper.euclidean_distance, [1,1,1], [22,2])
+        self.assertAlmostEqual(euclidean_distance([1, 1], [2, 2]), 1.414, 3)
+        self.assertAlmostEqual(euclidean_distance([1,1,1], [2,2,2]), 1.732, 3)
+        self.assertRaises(RuntimeError, euclidean_distance, [1,1,1], [22,2])
         
         
     def test_draw_circle(self):
-        original_image = Helper.read_image('bauckhage.jpg', as_array=True)
-        new_image = Helper.draw_circle(original_image, 30, 50, True) 
+        original_image = read_image('bauckhage.jpg', as_array=True)
+        new_image = draw_circle(original_image, 30, 50, True) 
         
         error_msg = 'Wrong area of the image has been modified'
         center = original_image.shape[0] / 2
@@ -37,3 +34,4 @@ class Test(unittest.TestCase):
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
+
