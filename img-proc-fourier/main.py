@@ -12,6 +12,7 @@ def task_1_1():
 
 
 def task_1_2():
+    labels = ('Original Image', 'Fourier Transformation', 'Frequency Suppression', 'Inverse Fourier Transformation')
     im = image_io.read_image('Resources/bauckhage.jpg', as_array=False)   
     ft = np.fft.fft2(im)
     sh = np.fft.fftshift(ft)
@@ -21,7 +22,7 @@ def task_1_2():
     inverse_p = np.fft.ifft2(picture)
     image_io.save_image(np.abs(inverse_p), 'Generated/InverseFourierTransformation.jpg')
     
-    plot(im, sh, picture, inverse_p, ('Original Image', 'Fourier Transformation', 'Frequency Suppression', 'Inverse Fourier Transformation'))
+    plot(im, sh, picture, inverse_p, labels)
 
     
     im = image_io.read_image('Resources/clock.jpg', as_array=False)   
@@ -33,7 +34,7 @@ def task_1_2():
     inverse_p = np.fft.ifft2(picture)
     image_io.save_image(np.abs(inverse_p), 'Generated/ClockInverseFourierTransformation.jpg')
     
-    plot(im, sh, picture, inverse_p, ('Original Image', 'Fourier Transformation', 'Frequency Suppression', 'Inverse Fourier Transformation'))
+    plot(im, sh, picture, inverse_p, labels)
 
     
     im = image_io.read_image('Resources/cat.png', as_array=False)   
@@ -45,7 +46,7 @@ def task_1_2():
     inverse_p = np.fft.ifft2(picture)
     image_io.save_image(np.abs(inverse_p), 'Generated/CatInverseFourierTransformation.jpg')
     
-    plot(im, sh, picture, inverse_p, ('Original Image', 'Fourier Transformation', 'Frequency Suppression', 'Inverse Fourier Transformation'))
+    plot(im, sh, picture, inverse_p, labels)
     
     im = image_io.read_image('Resources/asterixGrey.jpg', as_array=False)   
     ft = np.fft.fft2(im)
@@ -56,7 +57,7 @@ def task_1_2():
     inverse_p = np.fft.ifft2(picture)
     image_io.save_image(np.abs(inverse_p), 'Generated/CasterixGreyInverseFourierTransformation.jpg')
     
-    plot(im, sh, picture, inverse_p, ('Original Image', 'Fourier Transformation', 'Frequency Suppression', 'Inverse Fourier Transformation'))
+    plot(im, sh, picture, inverse_p, labels)
 
 
 def task_1_3():
