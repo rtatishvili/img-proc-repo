@@ -1,7 +1,7 @@
 from PIL import Image
 import numpy as np
 
-def create_image(image_array):
+def combine_magnitude_and_phase(image_array):
     """
     This method creates grayscale image from array.
     @param image_array: from which will be the image created.

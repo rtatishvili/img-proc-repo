@@ -3,7 +3,6 @@ Created on Nov 10, 2014
 
 @author: kostadin
 '''
-import math as math
 import numpy as np
 from fourier.Assert import Assert
 
@@ -13,8 +12,8 @@ def phase(val):
      @param val: complex number from which the phase is extracted
      @return: phase from a complex number   
     """
-    Assert.isTrue(type(val) is complex or type(val) is np.complex128, "Parameter is not of type complex!")
-    return math.atan2(np.imag(val), np.real(val))
+    Assert.isTrue(val.dtype.type == np.complex128, "Parameter is not of type complex!")    
+    return np.arctan2(np.imag(val), np.real(val))
 
 def magnitude(val):
     """
@@ -22,8 +21,9 @@ def magnitude(val):
     @param val: complex number from which the phase is extracted
     @return: magnitude of a complex number
     """
-    Assert.isTrue(type(val) is complex or type(val) is np.complex128, "Parameter is not of type complex!")
-    return math.sqrt(np.imag(val) ** 2 + np.real(val) ** 2)
+    Assert.isTrue(val.dtype.type == np.complex128, "Parameter is not of type complex!")    
+    return np.sqrt(np.imag(val) ** 2 + np.real(val) ** 2)
+
 
 def create_complex_number(magnitude, phase):
     """
@@ -32,4 +32,4 @@ def create_complex_number(magnitude, phase):
     @param phase: angle between the positive real axis and the line segment OP
     @return: complex number
     """
-    return magnitude * (math.cos(phase) + math.sin(phase)*1j)
+    return magnitude * (np.cos(phase) + np.sin(phase)*1j)

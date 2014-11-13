@@ -2,7 +2,7 @@ import unittest
 from fourier.image_io import read_image
 from fourier.image_manip import euclidean_distance
 from fourier.image_manip import draw_circle
-from fourier.image_manip import create_image
+from fourier.image_manip import combine_magnitude_and_phase
 
 class Test(unittest.TestCase):
 
@@ -35,7 +35,7 @@ class Test(unittest.TestCase):
     def test_create_image(self):
         imA = read_image('bauckhage.jpg', as_array=False)
         imB = read_image('clock.jpg', as_array=False)
-        imC = create_image(imA, imB) 
+        imC = combine_magnitude_and_phase(imA, imB) 
         self.assertAlmostEqual(imC[10, 10], (152.87045191206457+1.4814900926757266e-15j), 5)
         
         

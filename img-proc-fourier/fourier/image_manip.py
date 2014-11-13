@@ -39,21 +39,20 @@ def draw_circle(picture_array, r_min, r_max, inside):
                     picture_array[i, j] = 0                       
     return picture_array
 
-def create_image(imageA, imageB):
+def combine_magnitude_and_phase(magnitude_image, phase_image):
     """
-    This method creates new image by combining the magnitude form **imageA** and phase from **imageB**. Client must provide
+    This method creates new image by combining the magnitude form **magnitude_image** and phase from **phase_image**. Client must provide
     two images with same resolution.
-    @param imageA: first image
-    @param imageB: second image
+    @param magnitude_image: first image
+    @param phase_image: second image
     @return: new image
     """
-    Assert.isTrue(imageA.size == imageB.size, "Image A and B have different resolution!")
-    ftImageA = np.fft.fft2(imageA)
-    ftImageB = np.fft.fft2(imageB)
-    imageC = np.zeros(shape=imageA.size, dtype = np.complex)
-    for i in range(imageC.shape[0]):
-        for j in range(imageC.shape[1]):
-            magnitude = fourier_calc.magnitude(ftImageA[i, j])
-            phase = fourier_calc.phase(ftImageB[i, j])
-            imageC[i, j] =  fourier_calc.create_complex_number(magnitude, phase)
+    Assert.isTrue(magnitude_image.size == phase_image.size, "Images have different resolution!")
+    ftImageA = np.fft.fft2(magnitude_image)
+    ftImageB = np.fft.fft2(phase_image)
+    
+    magnitude = fourier_calc.magnitude(ftImageA)
+    phase = fourier_calc.phase(ftImageB)
+    imageC = fourier_calc.create_complex_number(magnitude, phase)
+
     return np.fft.ifft2(imageC)
