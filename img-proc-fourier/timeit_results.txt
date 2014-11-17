@@ -1,0 +1,12 @@
+task_1_1
+10 loops, best of 3: 2.58 sec per loop
+task_1
+10 loops, best of 3: 170 msec per loop
+task_1_2
+10 loops, best of 3: 2.69 sec per loop
+task_2
+10 loops, best of 3: 361 msec per loop
+task_1_3
+10 loops, best of 3: 219 msec per loop
+task_3
+10 loops, best of 3: 488 msec per loop
