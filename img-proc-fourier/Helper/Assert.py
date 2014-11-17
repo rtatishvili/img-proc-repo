@@ -4,6 +4,7 @@ Created on Nov 2, 2014
 @author: kostadin
 '''
 
+
 class Assert(object):
     '''
     classdocs
@@ -14,8 +15,8 @@ class Assert(object):
         '''
         Constructor
         '''
-        
-        
+
+
     @staticmethod
     def isTrue(b, message):
         """
