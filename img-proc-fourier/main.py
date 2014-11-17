@@ -2,7 +2,8 @@
 import Helper.image_io as image_io
 import Helper.image_manip as image_manip
 from Helper.ring_mask import RingMask
-from Helper.plot import plot, plot_clean
+from Helper.plot import plot, plot_clean, plot_2d_gray_multi
+from Helper.fourier_calc import magnitude, phase
 
 # imports from libraries
 import numpy as np
@@ -101,6 +102,69 @@ def task_1_3(image_path_a=DEFAULT_IMAGES[0], image_path_b=DEFAULT_IMAGES[1]):
                ('Image A', 'Image B', 'Magnitude from A, phase from B', 'Magnitude from B, phase from A'))
 
 
+def task_3(image_path_list=DEFAULT_IMAGES[:2]):
+    # TODO: Do you want to return the results?
+    """  Task 1.3 : swap the magnitudes and phases of the fft of
+                    'n'(=> 1) intensity images of same height and width
+                    and display
+
+    Implementation using numpy array operations and fft as implemented in the package
+    Requires matplotlib for plotting the result
+
+    :param image_path_list: list of strings
+                           list of filepaths of images to be worked on;
+                           all images should have same height and width;
+                           picks from default_images when no arguments given
+    """
+    # import intensity images as arrays from list of file paths into a list of input images
+    input_image_array_list = []
+    for path in image_path_list:
+        input_image_array_list.append(image_io.read_image(path, as_array=True))
+
+    # assert that all imported image arrays are of the same shape
+    assert np.all([input_image_array_list[0].shape == shape for shape in
+                   [image.shape for image in input_image_array_list]]), "All images need to be of the same size"
+
+    # calculate the fft of all images
+    fft_image_list = []
+    for image_array in input_image_array_list:
+        fft_image_list.append(np.fft.fft2(image_array))
+
+    # save all the calculated fft in an array
+    fft_image_array = np.asarray(fft_image_list)
+
+    mag_index, angle_index = np.ogrid[0:fft_image_array.shape[0], 0:fft_image_array.shape[0]]
+    # fft_image_array.shape[0] == number of images (n)
+
+    # column matrix of magnitudes and row matrix of angles of the fft
+    magnitudes = magnitude(fft_image_array[mag_index])
+    angles = phase(fft_image_array[angle_index])
+
+    # create matrix with all the combinations of magnitudes and angles
+    # matrix multiplication gives an n by n output_fft_image_array, n == number of images
+    output_fft_image_array = magnitudes * (np.e ** (angles * 1J))
+
+    # recreate images from the fft combinations and save in a list
+    # each output image is an array of complex numbers
+    output_image_list = []
+    for output_fft_row in output_fft_image_array:
+        output_image_row = []
+        for each_output_fft in output_fft_row:
+            output_image_row.append(np.fft.ifft2(each_output_fft))
+        output_image_list.append(output_image_row)
+
+    # extract the magnitudes of the output images
+    mag_output_image_list = []
+    for each_image_row in output_image_list:
+        mag_output_image_row = []
+        for each_image in each_image_row:
+            mag_output_image_row.append(magnitude(each_image))
+        mag_output_image_list.append(mag_output_image_row)
+
+    # plot the magnitudes of the output images in an n by n matrix shape
+    plot_2d_gray_multi(mag_output_image_list)
+
+
 if __name__ == '__main__':
     # task_1_1()
     # task_1_2()
@@ -108,4 +172,5 @@ if __name__ == '__main__':
     # task_1_2(DEFAULT_IMAGES[3])
     # task_1_3()
     # task_1()
-    task_2()
+    # task_2()
+    task_3()
