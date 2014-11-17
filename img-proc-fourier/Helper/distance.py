@@ -1,5 +1,5 @@
 # imports from Helper package
-import Assert as Assert
+from Assert import Assert
 
 # imports from libraries
 from numpy import sqrt, ogrid
