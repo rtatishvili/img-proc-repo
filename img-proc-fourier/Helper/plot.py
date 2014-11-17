@@ -3,8 +3,10 @@ Created on Nov 12, 2014
 
 @author: kostadin
 '''
-import matplotlib.pyplot as plt
 import numpy as np
+
+import matplotlib.pyplot as plt
+
 
 def plot(im, sh, picture, inverse_p, title):
     fig = plt.figure()
