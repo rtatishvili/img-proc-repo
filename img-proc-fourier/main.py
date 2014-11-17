@@ -54,11 +54,11 @@ def task_1_2(image_path=DEFAULT_IMAGES[0], r_min=20, r_max=40):
 
 
 def task_1_3(image_path_a=DEFAULT_IMAGES[0], image_path_b=DEFAULT_IMAGES[1]):
-    imA = image_io.read_image(image_path_a, as_array=False)
-    imB = image_io.read_image(image_path_b, as_array=False)
-    imC = image_manip.combine_magnitude_and_phase(imA, imB)
-    imD = image_manip.combine_magnitude_and_phase(imB, imA)
-    plot_clean(imA, imB, imC, imD,
+    image_a = image_io.read_image(image_path_a, as_array=False)
+    image_b = image_io.read_image(image_path_b, as_array=False)
+    image_c = image_manip.combine_magnitude_and_phase(image_a, image_b)
+    image_d = image_manip.combine_magnitude_and_phase(image_b, image_a)
+    plot_clean(image_a, image_b, image_c, image_d,
                ('Image A', 'Image B', 'Magnitude from A, phase from B', 'Magnitude from B, phase from A'))
 
 
