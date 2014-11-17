@@ -1,5 +1,7 @@
-from PIL import Image
 import numpy as np
+
+from PIL import Image
+
 
 def combine_magnitude_and_phase(image_array):
     """
