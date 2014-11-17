@@ -11,7 +11,7 @@ import numpy as np
 DEFAULT_IMAGES = ['Resources/bauckhage.jpg',
                   'Resources/clock.jpg',
                   'Resources/cat.png',
-                  'Resources/asterixGrey']
+                  'Resources/asterixGrey.jpg']
 
 
 def task_1_1(image_path=DEFAULT_IMAGES[0], r_min=20, r_max=40):
@@ -66,6 +66,6 @@ if __name__ == '__main__':
     # task_1_1()
     # task_1_2()
     # task_1_2(DEFAULT_IMAGES[1])
-    # task_1_2(DEFAULT_IMAGES[3])
-    # task_1_3()
-    task_1()
+    task_1_2(DEFAULT_IMAGES[3])
+    task_1_3()
+    # task_1()
