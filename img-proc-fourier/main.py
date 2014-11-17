@@ -53,6 +53,45 @@ def task_1_2(image_path=DEFAULT_IMAGES[0], r_min=20, r_max=40):
     plot(im, sh, picture, inverse_p, labels)
 
 
+def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
+    """ @author: motjuste
+
+    :param image_path:
+    :param radius_min:
+    :param radius_max:
+    """
+    input_image_array = image_io.read_image(image_path, as_array=False)
+
+    fft_image_array = np.fft.fft2(input_image_array)
+    shift_fft_image = np.fft.fftshift(fft_image_array)
+
+    # TODO: save the shift_fft_image
+
+    # create and apply ring shaped freq mask, where a ring of True lies in a sea of False
+    effect_true = lambda x: x  # no change to element ( = allow the freq) when mask is True (inside the ring)
+    effect_false = lambda x: x * 0  # set element to zero ( = stop the freq) where mask is False (outside the ring)
+    center = (shift_fft_image.shape[0] / 2, shift_fft_image.shape[1] / 2)  # center of ring
+
+    ring_freq_mask = RingMask(shift_fft_image.shape,
+                              effect_true, effect_false,
+                              radius_min, radius_max,
+                              center)
+
+    out_shift_fft_image = ring_freq_mask.apply_mask(shift_fft_image)
+
+    # TODO: save out_shift_fft_image
+
+    # out_fft_image_array = ifftshift.numpy_ifftshift(out_shift_fft_image) # ifftshit has no effect on final image
+    # out_image_array = ifft2.numpy_ifft2(out_fft_image_array)
+
+    out_image_array = np.fft.ifft2(out_shift_fft_image)
+
+    # plot images
+    # TODO: improve plotting
+    labels = ('Original Image', 'Fourier Transformation', 'Frequency Suppression', 'Inverse Fourier Transformation')
+    plot(input_image_array, shift_fft_image, out_shift_fft_image, out_image_array, labels)
+
+
 def task_1_3(image_path_a=DEFAULT_IMAGES[0], image_path_b=DEFAULT_IMAGES[1]):
     image_a = image_io.read_image(image_path_a, as_array=False)
     image_b = image_io.read_image(image_path_b, as_array=False)
@@ -66,6 +105,7 @@ if __name__ == '__main__':
     # task_1_1()
     # task_1_2()
     # task_1_2(DEFAULT_IMAGES[1])
-    task_1_2(DEFAULT_IMAGES[3])
-    task_1_3()
+    # task_1_2(DEFAULT_IMAGES[3])
+    # task_1_3()
     # task_1()
+    task_2()
