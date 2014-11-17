@@ -1,8 +1,8 @@
-'''
+"""
 Created on Nov 10, 2014
 
 @author: kostadin
-'''
+"""
 import unittest
 import numpy as np
 
