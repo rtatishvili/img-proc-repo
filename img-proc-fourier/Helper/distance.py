@@ -1,4 +1,4 @@
-# imports from project
+# imports from Helper package
 import Assert as Assert
 
 # imports from libraries
