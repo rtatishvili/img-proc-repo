@@ -1,23 +1,9 @@
 import numpy as np
-from math import sqrt
-from fourier.Assert import Assert
-import fourier.fourier_calc as fourier_calc
 
+from Assert import Assert
+import fourier_calc as fourier_calc
+from distance import euclidean_2points
 
-
-def euclidean_distance(x, y):
-    """
-    This method calculates Euclidean distance between two points. The client must provide array of the coordinate of the points.
-    @param x: first point
-    @param y: second point
-    @return: distance between x and y
-    """
-    Assert.isTrue(len(x) == len(y), "Arrays have different length")    
-    a = 0.
-    for i in range(len(x)):
-        a += (x[i] - y[i]) ** 2
-    
-    return sqrt(a)
 
 def draw_circle(picture_array, r_min, r_max, inside):
     """
@@ -29,7 +15,7 @@ def draw_circle(picture_array, r_min, r_max, inside):
     """
     for i in range(picture_array.shape[0]):
         for j in range(picture_array.shape[1]):
-            norm = euclidean_distance([i, j], [picture_array.shape[0] / 2, picture_array.shape[1] / 2])
+            norm = euclidean_2points([i, j], [picture_array.shape[0] / 2, picture_array.shape[1] / 2])
             is_in_radius = (norm >= r_min and norm <= r_max)
             if inside == False:
                 if is_in_radius == False:
