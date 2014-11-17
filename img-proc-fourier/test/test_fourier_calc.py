@@ -4,10 +4,10 @@ Created on Nov 10, 2014
 @author: kostadin
 '''
 import unittest
-import fourier.fourier_calc as fourier_calc
-import fourier.image_io as image_io
 import numpy as np
-from cmath import phase
+
+import Helper.fourier_calc as fourier_calc
+import Helper.image_io as image_io
 
 
 class Test(unittest.TestCase):
