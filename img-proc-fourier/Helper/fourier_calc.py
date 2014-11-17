@@ -4,7 +4,9 @@ Created on Nov 10, 2014
 @author: kostadin
 '''
 import numpy as np
-from fourier.Assert import Assert
+
+from Assert import Assert
+
 
 def phase(val):
     """
