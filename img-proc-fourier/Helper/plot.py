@@ -39,3 +39,23 @@ def plot_clean(im, sh, picture, inverse_p, title):
     a.imshow(np.abs(inverse_p), cmap=plt.get_cmap('gray'))
     a.set_title(title[3])
     plt.show()
+
+
+def plot_2d_gray_multi(im_list):
+    """@author: motjuste
+
+    :param im_list:
+    """
+    plt.figure()
+    max_row_size = max([len(x) for x in im_list])
+    max_col_size = len(im_list)  # TODO: Gigiti
+
+    subplot = 100 * max_row_size + 10 * max_col_size + 1
+
+    for each_row in im_list:
+        for each in each_row:
+            plt.subplot(subplot)
+            plt.imshow(each, cmap=plt.cm.gray)
+            subplot += 1
+
+    plt.show()
