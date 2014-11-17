@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 
 
-def combine_magnitude_and_phase(image_array):
+def create_image(image_array):
     """
     This method creates grayscale image from array.
     @param image_array: from which will be the image created.
@@ -14,9 +14,10 @@ def combine_magnitude_and_phase(image_array):
 
 def read_image(image_location, as_array):
     """
-    Read image from given location. If as_array == True then the method returns the image as array. 
+    Read image from given location. If as_array == True then the method returns the image as array.
+    If as_array == False then the method returns an Image object from PIL
     @param image_location: path of the image
-    @param as_array: if true the method returns the image as array 
+    @param as_array: if true the method returns the image as array, if not then it returns an Image object from PIL
     """
     image = Image.open(image_location, 'r')
     if as_array == True:
@@ -29,7 +30,7 @@ def read_image(image_location, as_array):
 
 def save_image(image_array, location):
     """
-    This method save array as JPG image. Client must provide the array and the location where the image will be saved.
+    Save array as JPG image. Client must provide the array and the location where the image will be saved.
     @param image_array: that is saved
     @param location: where the image is saved
     """

@@ -5,7 +5,7 @@ import distance
 
 
 class RingMask(mask.Mask):
-    def __init__(self, original_array_shape, effect_true, effect_false, radius_inner, radius_outer, center):
+    def __init__(self, original_array_shape, func_true, func_false, radius_inner, radius_outer, center):
         """
         Initialize a RingMask object of class Mask
         where the array RingMask.data has True forming
@@ -17,12 +17,12 @@ class RingMask(mask.Mask):
         :param original_array_shape: tuple
                                      with the array.shape of the array that the mask is to be applied to
                                      Mask.data will be of this shape
-        :param effect_true: function (mandatory)
+        :param func_true: function (mandatory)
                             the effect of the Mask on the elements of the array where Mask.data is True
                             currently supported only functions with one argument,
                                 and one return of the same type as argument
                             call without brackets, mapping going on here
-        :param effect_false: function (not mandatory; default=lambda x: x)
+        :param func_false: function (not mandatory; default=lambda x: x)
                              the effect of the Mask on the elements of the array where Mask.data is False
                              currently supported only functions with one argument,
                                 and one return of the same type as argument
@@ -36,7 +36,7 @@ class RingMask(mask.Mask):
                        location of the center of the ring
         """
         super(RingMask, self).__init__(original_array_shape,
-                                       effect_true, effect_false=effect_false)
+                                       func_true, func_false=func_false)
         self.radius_inner = radius_inner
         self.radius_outer = radius_outer
         self.center = center
@@ -64,27 +64,3 @@ class RingMask(mask.Mask):
 
         return ring_data
 
-
-# ===========================TESTS====================================
-
-def test():
-    import numpy as np
-
-    input_image_array = np.random.randint(1, 5, (9, 9))
-    radius_inner = 2
-    radius_outer = 3
-    image_center = (3, 3)
-
-    effect_true = lambda x: x * 0  # effect of mask on image where value(mask) = True
-    effect_false = lambda x: x * 1  # effect of mask on image where value(mask) = False
-
-    ring_mask = RingMask(input_image_array.shape, effect_true, effect_false, radius_inner, radius_outer, image_center)
-    print ring_mask.data
-    output_image_array = ring_mask.apply_mask(input_image_array)
-
-    # from Helper.visual_test import plot_2d_gray
-    # plot_2d_gray([input_image_array, output_image_array])
-
-
-if __name__ == "__main__":
-    test()
