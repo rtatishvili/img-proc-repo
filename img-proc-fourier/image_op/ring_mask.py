@@ -1,8 +1,8 @@
-import mask
-import distance
+from image_op.mask import Mask
+from calc.distance import euclidean_2d_array
 
 
-class RingMask(mask.Mask):
+class RingMask(Mask):
     def __init__(self, original_array_shape, func_true, func_false, radius_inner, radius_outer, center):
         """
         Initialize a RingMask object of class Mask
@@ -51,7 +51,7 @@ class RingMask(mask.Mask):
         # create a dist_array of the shape of RingMask.shape
         # where each element value is the Euclidean distance of the element
         # from the center of RingMask.shape
-        dist_array = distance.euclidean_2d_array(self.shape, self.center)
+        dist_array = euclidean_2d_array(self.shape, self.center)
 
         # *_circle_data has True elements forming a circle, surrounded by False elements
         inner_circle_data = dist_array >= self.radius_inner

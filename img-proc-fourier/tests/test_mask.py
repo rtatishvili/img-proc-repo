@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from Helper.mask import Mask 
+from image_op.mask import Mask 
 
 class Test(unittest.TestCase):
     

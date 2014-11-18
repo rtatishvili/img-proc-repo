@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from Helper.distance import euclidean_2d_array
+from calc.distance import euclidean_2d_array
 
 class Test(unittest.TestCase):
 

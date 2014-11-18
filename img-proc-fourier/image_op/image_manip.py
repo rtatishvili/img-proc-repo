@@ -1,6 +1,6 @@
 import numpy as np
 from Assert import Assert
-import fourier_calc as fourier_calc
+from calc import fourier_calc as fourier_calc
 
 
 def combine_magnitude_and_phase(ft_magnitude_image, ft_phase_image):
@@ -11,7 +11,7 @@ def combine_magnitude_and_phase(ft_magnitude_image, ft_phase_image):
     @param ft_phase_image: Fourier transform of the second image
     @return: new image
     """
-    Assert.isTrue(ft_magnitude_image.size == ft_phase_image.size, "Images have different resolution!")
+    Assert.isTrue(ft_magnitude_image.size == ft_phase_image.size, "image_op have different resolution!")
     
     magnitude = fourier_calc.magnitude(ft_magnitude_image)
     phase = fourier_calc.phase(ft_phase_image)

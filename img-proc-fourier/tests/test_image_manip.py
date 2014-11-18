@@ -1,7 +1,7 @@
 import unittest
 
-from Helper.image_io import read_image
-from Helper.image_manip import combine_magnitude_and_phase
+from image_op.image_io import read_image
+from image_op.image_manip import combine_magnitude_and_phase
 
 
 class Test(unittest.TestCase):

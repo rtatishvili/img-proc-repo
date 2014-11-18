@@ -1,8 +1,8 @@
 # imports from project
-from Helper.image_io import read_image, save_image, create_image
-from Helper.image_manip import combine_magnitude_and_phase
-from Helper.ring_mask import RingMask
-from Helper.plot import plot, plot_clean
+from image_op.image_io import read_image, save_image, create_image
+from image_op.image_manip import combine_magnitude_and_phase
+from image_op.ring_mask import RingMask
+from plot import plot, plot_clean
 
 # imports from libraries
 import numpy as np
@@ -21,7 +21,7 @@ def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     # create and apply ring mask, where a ring of True lies in a sea of False
     
     # set element to 0 inside the ring
-    func_inside_ring = lambda x: 0
+    func_inside_ring = lambda x: 0.0000001
     # no change to element outside the ring
     func_outside_ring = lambda x: x  
     # center of ring
@@ -66,7 +66,7 @@ def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     # no change to the element, i.e. allow the frequency
     func_inside_ring = lambda x: x  
     # set element to zero, i.e. suppress the frequency
-    func_outside_ring = lambda x: 0
+    func_outside_ring = lambda x: 0.0000001
     # center of ring
     center = (ft_image.shape[0] / 2, ft_image.shape[1] / 2)  
 
