@@ -1,5 +1,3 @@
-__author__ = 'motjuste'
-
 import numpy as np
 
 

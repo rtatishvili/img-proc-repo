@@ -1,17 +1,8 @@
-'''
-Created on Nov 2, 2014
-
-@author: kostadin
-'''
-
 
 class Assert(object):
-    '''
-    classdocs
-    '''
-
 
     def __init__(self, params):
+        pass
         '''
         Constructor
         '''

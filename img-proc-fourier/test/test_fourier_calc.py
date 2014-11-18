@@ -1,8 +1,3 @@
-"""
-Created on Nov 10, 2014
-
-@author: kostadin
-"""
 import unittest
 import numpy as np
 
@@ -35,14 +30,14 @@ class Test(unittest.TestCase):
         self.assertEqual(fourier_calc.phase(c2)[0], 0, error_msg)
         self.assertEqual(fourier_calc.phase(c3)[0], 1.5707963267948966, error_msg)
         
-    def test_create_complex_number(self):
+    def test_create_complex_array(self):
         error_msg = 'Wrong complex number'
         im = image_io.read_image('../Resources/bauckhage.jpg', as_array=False)
         ft = np.fft.fft2(im)
         
         magnitude = fourier_calc.magnitude(ft)        
         phase = fourier_calc.phase(ft)        
-        result = np.allclose(ft, fourier_calc.create_complex_number(magnitude, phase))
+        result = np.allclose(ft, fourier_calc.create_complex_array(magnitude, phase))
         
         self.assertTrue(result, error_msg)
                 
@@ -50,3 +45,5 @@ class Test(unittest.TestCase):
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test_fourier_calc']
     unittest.main()
+    
+    

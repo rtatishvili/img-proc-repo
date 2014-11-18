@@ -1,10 +1,4 @@
-'''
-Created on Nov 12, 2014
-
-@author: kostadin
-'''
 import numpy as np
-
 import matplotlib.pyplot as plt
 
 
@@ -42,8 +36,7 @@ def plot_clean(im, sh, picture, inverse_p, title):
 
 
 def plot_2d_gray_multi(im_list):
-    """@author: motjuste
-
+    """
     :param im_list:
     """
     plt.figure()
@@ -55,7 +48,7 @@ def plot_2d_gray_multi(im_list):
     for each_row in im_list:
         for each in each_row:
             plt.subplot(subplot)
-            plt.imshow(each, cmap=plt.cm.gray)
+            plt.imshow(each, cmap=plt.get_cmap('gray'))
             subplot += 1
 
     plt.show()

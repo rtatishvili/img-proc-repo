@@ -1,8 +1,3 @@
-'''
-Created on Nov 10, 2014
-
-@author: kostadin
-'''
 import numpy as np
 
 from Assert import Assert
@@ -27,9 +22,9 @@ def magnitude(val):
     return np.sqrt(np.imag(val) ** 2 + np.real(val) ** 2)
 
 
-def create_complex_number(magnitude, phase):
+def create_complex_array(magnitude, phase):
     """
-    This method creates complex number. Client must provide magnitude and phase.
+    This method creates complex array. Client must provide magnitude and phase.
     @param magnitude: of the number (distance of the point P from the origin O)
     @param phase: angle between the positive real axis and the line segment OP
     @return: complex number

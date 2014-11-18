@@ -1,5 +1,3 @@
-__author__ = 'motjuste'
-
 import mask
 import distance
 

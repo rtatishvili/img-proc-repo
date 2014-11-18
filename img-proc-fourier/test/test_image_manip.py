@@ -1,16 +1,10 @@
 import unittest
 
 from Helper.image_io import read_image
-from Helper.image_manip import euclidean_2points
-from Helper.image_manip import draw_circle
 from Helper.image_manip import combine_magnitude_and_phase
 
 
 class Test(unittest.TestCase):
-    def test_euclidean_distance(self):
-        self.assertAlmostEqual(euclidean_2points([1, 1], [2, 2]), 1.414, 3)
-        self.assertAlmostEqual(euclidean_2points([1, 1, 1], [2, 2, 2]), 1.732, 3)
-        self.assertRaises(RuntimeError, euclidean_2points, [1, 1, 1], [22, 2])
 
     def test_create_image(self):
         imA = read_image('../Resources/bauckhage.jpg', as_array=False)

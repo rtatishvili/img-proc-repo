@@ -1,8 +1,3 @@
-'''
-Created on Nov 17, 2014
-
-@author: revaz
-'''
 import unittest
 import numpy as np
 from Helper.mask import Mask 
