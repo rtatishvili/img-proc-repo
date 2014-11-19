@@ -25,13 +25,9 @@ def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     input_image = read_image(file_path, as_array=True)
 
     # create and apply ring mask, where a ring of True lies in a sea of False
-
-    # set element to 0 inside the ring
-    func_inside_ring = lambda x: 0
-    # no change to element outside the ring
-    func_outside_ring = lambda x: x
-    # center of ring
-    image_center = (input_image.shape[0] / 2, input_image.shape[1] / 2)
+    func_inside_ring = lambda x: 0  # set element to 0 inside the ring
+    func_outside_ring = lambda x: x  # no change to element outside the ring
+    image_center = (input_image.shape[0] / 2, input_image.shape[1] / 2)  # used as center of ring
 
     # Create a mask object containing the area of the ring and 
     # the functions to apply inside and outside the ring
@@ -43,7 +39,7 @@ def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     # The image containing the ring (filled with black inside) 
     output_image_array = ring_mask.apply_mask(input_image)
 
-    # save the output image
+    # Save the output image
     save_array_as_gray_image(output_image_array, "Generated/task_1_" + current_datetime_string() + ".jpg")
 
     # plot the images for visual comparison
@@ -71,29 +67,25 @@ def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
 
     # create and apply a ring shaped frequency mask on a Fourier transform of an image
     # where the mask suppresses the frequencies outside the ring
-
     func_inside_ring = lambda x: x  # no change to the element, i.e. allow the frequency
     func_outside_ring = lambda x: 0  # set element to zero, i.e. suppress the frequency
-    # center of ring
-    center = (ft_image.shape[0] / 2, ft_image.shape[1] / 2)
+    center = (ft_image.shape[0] / 2, ft_image.shape[1] / 2)  # center of the ring
 
-    # Create a mask object containing the area of the ring and 
-    # the functions to apply inside and outside the ring
+    # Create and apply the RingMask
     ring_freq_mask = RingMask(ft_image.shape,
                               func_inside_ring, func_outside_ring,
                               radius_min, radius_max,
                               center)
-
     suppressed_ft_image = ring_freq_mask.apply_mask(ft_image)
 
-    # Apply inverse Fourier transformation on a suppressed image
-    ift_image = np.fft.ifft2(suppressed_ft_image)
+    # image from the suppressed FT
+    output_image = np.fft.ifft2(suppressed_ft_image)
 
     # output results
     # calculate absolutes for saving and plotting
     abs_ft_image = abs(ft_image)
     abs_suppressed_ft_image = abs(suppressed_ft_image)
-    abs_ift_image = abs(ift_image)
+    abs_output_image = abs(output_image)
 
     # save output images
     current_datetime = current_datetime_string()
@@ -103,18 +95,18 @@ def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     save_array_as_gray_image(abs_suppressed_ft_image,
                              "Generated/task_2_suppressed_ft_" + current_datetime + ".jpg",
                              normalize=True)
-    save_array_as_gray_image(abs_ift_image,
+    save_array_as_gray_image(abs_output_image,
                              "Generated/task_2_" + current_datetime + ".jpg")
 
     # plot the images for comparison
     # TODO: improve plotting
     # labels = ('Original Image', 'Fourier Transformation', 'Frequency Suppression', 'Inverse Fourier Transformation')
-    # plot(input_image_array, ft_image, suppressed_ft_image, ift_image, labels)
+    # plot(input_image_array, ft_image, suppressed_ft_image, output_image, labels)
     plot_2d_gray_multi([[input_image_array, np.log(abs_ft_image)],
-                        [abs_ift_image, abs_suppressed_ft_image]])
+                        [abs_output_image, abs_suppressed_ft_image]])
 
     # return results
-    return [ft_image, suppressed_ft_image, ift_image]
+    return [ft_image, suppressed_ft_image, output_image]
 
 
 def task_3(image_path_list=DEFAULT_IMAGES[:2]):
@@ -137,27 +129,27 @@ def task_3(image_path_list=DEFAULT_IMAGES[:2]):
 
     # combine the phase and magnitudes of images
     output_image_list = []
-    abs_image_list = []  # absolutes of result images; done to avoid redundant for-loops; #sorry
     for mag_index in range(len(ft_list)):
         output_image_list_row = []
-        abs_image_list_row = []
         for phase_index in range(len(ft_list)):
             # Construct new image from the magnitude part of the first image and phase part of the second image
             combined_image = combine_magnitude_and_phase(ft_list[mag_index], ft_list[phase_index])
-
             output_image_list_row.append(combined_image)
-            abs_image_list_row.append(abs(combined_image))
         output_image_list.append(output_image_list_row)
-        abs_image_list.append(abs_image_list_row)
 
     # save output images with descriptive name
     current_datetime = current_datetime_string()
-    for index_row, image_row in enumerate(abs_image_list):
+    abs_image_list = []  # absolutes of result images; done to avoid redundant for-loops; #sorry
+    for index_row, image_row in enumerate(output_image_list):
+        abs_image_list_row = []
         for index_col, image in enumerate(image_row):
-            save_array_as_gray_image(image,
+            abs_image = abs(image)
+            save_array_as_gray_image(abs_image,
                                      "Generated/task_3_M" + str(index_row) + "_P" + str(
                                          index_col) + "_" + current_datetime + ".jpg",
                                      normalize=True)
+            abs_image_list_row.append(abs_image)
+        abs_image_list.append(abs_image_list_row)
 
     # plot the images for comparison
     plot_2d_gray_multi(abs_image_list)
@@ -167,8 +159,9 @@ def task_3(image_path_list=DEFAULT_IMAGES[:2]):
 
 
 if __name__ == '__main__':
-    task_1()
-    task_2()
+    # task_1()
+    # task_2()
     # task_2(DEFAULT_IMAGES[1])
     # task_2(DEFAULT_IMAGES[3])
+    task_3()
     # task_3(DEFAULT_IMAGES[:3])
