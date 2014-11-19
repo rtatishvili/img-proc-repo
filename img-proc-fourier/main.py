@@ -134,17 +134,18 @@ def task_3(image_path_list=DEFAULT_IMAGES[:2]):
         ft_list.append(np.fft.fft2(image_array))
 
     # combine the phase and magnitudes of images
-    image_list = []
+    output_image_list = []
     abs_image_list = []  # absolutes of result images; done to avoid redundant for-loops; #sorry
     for mag_index in range(len(ft_list)):
-        image_list_row = []
+        output_image_list_row = []
         abs_image_list_row = []
         for phase_index in range(len(ft_list)):
             # Construct new image from the magnitude part of the first image and phase part of the second image
             combined_image = combine_magnitude_and_phase(ft_list[mag_index], ft_list[phase_index])
-            image_list_row.append(combined_image)
+
+            output_image_list_row.append(combined_image)
             abs_image_list_row.append(abs(combined_image))
-        image_list.append(image_list_row)
+        output_image_list.append(output_image_list_row)
         abs_image_list.append(abs_image_list_row)
 
     # save output images with descriptive name
@@ -160,7 +161,7 @@ def task_3(image_path_list=DEFAULT_IMAGES[:2]):
     plot_2d_gray_multi(abs_image_list)
 
     # return results
-    return image_list
+    return output_image_list
 
 
 if __name__ == '__main__':
