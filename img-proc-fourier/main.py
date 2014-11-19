@@ -8,6 +8,7 @@ from plot import plot_multiple_arrays
 # imports from libraries
 import numpy as np
 import datetime as dt
+import sys
 
 # GLOBAL VARIABLES
 DEFAULT_IMAGES = ['Resources/bauckhage.jpg',
@@ -30,8 +31,11 @@ def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     :param file_path: file path to the image on which the ring is to be drawn
     :param radius_min: minimal radius of the ring
     :param radius_max: maximal radius of the ring
-    :return:
+    :return: array of image data with the applied circle
     """
+    print "####################################"
+    print
+    print "Running Task 1"
     input_image = read_image(file_path, as_array=True)
 
     # create and apply ring mask, where a ring of True lies in a sea of False
@@ -50,7 +54,11 @@ def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     output_image_array = ring_mask.apply_mask(input_image)
 
     # Save the output image
-    save_array_as_gray_image(output_image_array, "Generated/task_1_" + current_datetime_string() + ".jpg")
+    current_datetime = current_datetime_string()
+    save_array_as_gray_image(output_image_array, "Generated/task_1_" + current_datetime + ".jpg")
+
+    print "Output Image saved at :",
+    print "Generated/task_1_" + current_datetime + ".jpg"
 
     # plot the images for visual comparison
     plot_multiple_arrays([[input_image, output_image_array]],
@@ -62,12 +70,16 @@ def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
 
 def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     """
+
     :param image_path: The file path to the image on which the Fourier Transformation is applied
     :param radius_min: Minimal radius defining the inner edge of the ring
     :param radius_max: Maximal radius defining the outer edge of the ring
+    :return: list of image arrays
+            [FT of input image, suppressed FT, image from the suppressed FT]
     """
-
-    # Load an image as Image object
+    print "####################################"
+    print
+    print "Running Task 2"
     input_image_array = read_image(image_path, as_array=True)
 
     # Apply fast Fourier transformation to an image
@@ -109,8 +121,12 @@ def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     save_array_as_gray_image(abs_output_image,
                              "Generated/task_2_" + current_datetime + ".jpg")
 
+    print "Output Images saved at :"
+    print "Generated/task_2_ft_" + current_datetime + ".jpg"
+    print "Generated/task_2_suppressed_ft_" + current_datetime + ".jpg"
+    print "Generated/task_2_" + current_datetime + ".jpg"
+
     # plot the images for comparison
-    # TODO: improve plotting
     labels = ('Original Image: g', 'FT of g: G', 'IFT of G`: g`', 'Suppressed FT G: G`')
     plot_multiple_arrays([[input_image_array, np.log(abs_ft_image)],
                           [abs_output_image, abs_suppressed_ft_image]],
@@ -121,9 +137,15 @@ def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
 
 
 def task_3(image_path_list=DEFAULT_IMAGES[:2]):
-    """ 
-    :param image_path_list: list of paths to images to be combined
     """
+    :param image_path_list: list of paths to images to be combined
+    :return: 2D list of combined image arrays, accessed as list[x][y], where, while combining:
+            x: image array in image_path_list whose magnitude was taken
+            y: image array in image_path_list whose phase was taken
+    """
+    print "####################################"
+    print
+    print "Running Task 3"
     # import intensity images as Images from list of file paths into a list of input images
     input_image_array_list = []
     for path in image_path_list:
@@ -152,6 +174,8 @@ def task_3(image_path_list=DEFAULT_IMAGES[:2]):
     current_datetime = current_datetime_string()
     abs_image_list = []  # absolutes of result images; done to avoid redundant for-loops; #sorry
     labels = []  # for plotting
+    print "Output Images saved at :"
+
     for index_row, image_row in enumerate(output_image_list):
         abs_image_list_row = []
         for index_col, image in enumerate(image_row):
@@ -160,6 +184,7 @@ def task_3(image_path_list=DEFAULT_IMAGES[:2]):
                                      "Generated/task_3_M" + str(index_row) + "_P" + str(
                                          index_col) + "_" + current_datetime + ".jpg",
                                      normalize=True)
+            print "Generated/task_3_M" + str(index_row) + "_P" + str(index_col) + "_" + current_datetime + ".jpg"
             abs_image_list_row.append(abs_image)
             labels.append("Mag(" + str(index_row) + "), Phase(" + str(index_col) + ")")  # for plotting
         abs_image_list.append(abs_image_list_row)
@@ -171,10 +196,30 @@ def task_3(image_path_list=DEFAULT_IMAGES[:2]):
     return output_image_list
 
 
-if __name__ == '__main__':
-    # task_1()
-    # task_2()
-    # task_2(DEFAULT_IMAGES[1])
-    # task_2(DEFAULT_IMAGES[4])
-    # task_3()
-    task_3(DEFAULT_IMAGES[:3])
+# ============== Interactive Usage =============================
+def main(argv):
+    task = ''
+    if len(argv) == 1:
+        task += 'all'
+    else:
+        task += argv[1]
+
+    if task == '1':
+        task_1()
+    elif task == '2':
+        task_2()
+    elif task == '3':
+        task_3()
+    elif task == '3x3':
+        task_3(DEFAULT_IMAGES[:3])
+    elif task == 'all':
+        task_1()
+        task_2()
+        task_3()
+    else:
+        print "Unrecognized script parameter"
+        sys.exit()
+
+
+if __name__ == "__main__":
+    main(sys.argv)
