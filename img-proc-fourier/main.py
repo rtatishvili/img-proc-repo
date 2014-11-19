@@ -2,7 +2,7 @@
 from image_op.image_io import read_image, save_array_as_gray_image
 from image_op.image_manip import combine_magnitude_and_phase
 from image_op.ring_mask import RingMask
-from plot import plot, plot_2d_gray_multi
+from plot import plot_2d_gray_multi
 
 # imports from libraries
 import numpy as np
@@ -47,7 +47,7 @@ def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     save_array_as_gray_image(output_image_array, "Generated/task_1_" + current_datetime_string() + ".jpg")
 
     # plot the images for visual comparison
-
+    plot_2d_gray_multi([[input_image, output_image_array]])
 
     # return the image for any further processing
     return output_image_array
@@ -61,7 +61,7 @@ def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     """
 
     # Load an image as Image object
-    input_image_array = read_image(image_path, as_array=False)
+    input_image_array = read_image(image_path, as_array=True)
 
     # Apply fast Fourier transformation to an image
     fft_image_array = np.fft.fft2(input_image_array)
@@ -108,8 +108,10 @@ def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
 
     # plot the images for comparison
     # TODO: improve plotting
-    labels = ('Original Image', 'Fourier Transformation', 'Frequency Suppression', 'Inverse Fourier Transformation')
-    plot(input_image_array, ft_image, suppressed_ft_image, ift_image, labels)
+    # labels = ('Original Image', 'Fourier Transformation', 'Frequency Suppression', 'Inverse Fourier Transformation')
+    # plot(input_image_array, ft_image, suppressed_ft_image, ift_image, labels)
+    plot_2d_gray_multi([[input_image_array, np.log(abs_ft_image)],
+                        [abs_ift_image, abs_suppressed_ft_image]])
 
     # return results
     return [ft_image, suppressed_ft_image, ift_image]
@@ -165,8 +167,8 @@ def task_3(image_path_list=DEFAULT_IMAGES[:2]):
 
 
 if __name__ == '__main__':
-    # task_1()
-    # task_2()
+    task_1()
+    task_2()
     # task_2(DEFAULT_IMAGES[1])
     # task_2(DEFAULT_IMAGES[3])
-    task_3(DEFAULT_IMAGES[:3])
+    # task_3(DEFAULT_IMAGES[:3])
