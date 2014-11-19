@@ -1,8 +1,9 @@
 # imports from project
 from image_op.image_io import read_image, save_array_as_gray_image
+from calc.fourier_calc import magnitude
 from image_op.image_manip import combine_magnitude_and_phase
 from image_op.ring_mask import RingMask
-from plot import plot_2d_gray_multi
+from plot import plot_multiple_arrays
 
 # imports from libraries
 import numpy as np
@@ -17,11 +18,20 @@ DEFAULT_IMAGES = ['Resources/bauckhage.jpg',
 
 
 def current_datetime_string():
+    """
+    :return: current datetime as string in format YYYYMMDDH24mmss
+    """
     return dt.datetime.now().strftime("%Y%m%d%H%M%S")
 
 
 def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     # Import image as a numpy.array
+    """
+    :param file_path: file path to the image on which the ring is to be drawn
+    :param radius_min: minimal radius of the ring
+    :param radius_max: maximal radius of the ring
+    :return:
+    """
     input_image = read_image(file_path, as_array=True)
 
     # create and apply ring mask, where a ring of True lies in a sea of False
@@ -43,7 +53,8 @@ def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     save_array_as_gray_image(output_image_array, "Generated/task_1_" + current_datetime_string() + ".jpg")
 
     # plot the images for visual comparison
-    plot_2d_gray_multi([[input_image, output_image_array]])
+    plot_multiple_arrays([[input_image, output_image_array]],
+                         "Task 1", ["Input Image: g", "Output Image: g`"])
 
     # return the image for any further processing
     return output_image_array
@@ -83,9 +94,9 @@ def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
 
     # output results
     # calculate absolutes for saving and plotting
-    abs_ft_image = abs(ft_image)
-    abs_suppressed_ft_image = abs(suppressed_ft_image)
-    abs_output_image = abs(output_image)
+    abs_ft_image = magnitude(ft_image)
+    abs_suppressed_ft_image = magnitude(suppressed_ft_image)
+    abs_output_image = magnitude(output_image)
 
     # save output images
     current_datetime = current_datetime_string()
@@ -100,10 +111,10 @@ def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
 
     # plot the images for comparison
     # TODO: improve plotting
-    # labels = ('Original Image', 'Fourier Transformation', 'Frequency Suppression', 'Inverse Fourier Transformation')
-    # plot(input_image_array, ft_image, suppressed_ft_image, output_image, labels)
-    plot_2d_gray_multi([[input_image_array, np.log(abs_ft_image)],
-                        [abs_output_image, abs_suppressed_ft_image]])
+    labels = ('Original Image: g', 'FT of g: G', 'IFT of G`: g`', 'Suppressed FT G: G`')
+    plot_multiple_arrays([[input_image_array, np.log(abs_ft_image)],
+                          [abs_output_image, abs_suppressed_ft_image]],
+                         "Task 2", labels)
 
     # return results
     return [ft_image, suppressed_ft_image, output_image]
@@ -140,19 +151,21 @@ def task_3(image_path_list=DEFAULT_IMAGES[:2]):
     # save output images with descriptive name
     current_datetime = current_datetime_string()
     abs_image_list = []  # absolutes of result images; done to avoid redundant for-loops; #sorry
+    labels = []  # for plotting
     for index_row, image_row in enumerate(output_image_list):
         abs_image_list_row = []
         for index_col, image in enumerate(image_row):
-            abs_image = abs(image)
+            abs_image = magnitude(image)
             save_array_as_gray_image(abs_image,
                                      "Generated/task_3_M" + str(index_row) + "_P" + str(
                                          index_col) + "_" + current_datetime + ".jpg",
                                      normalize=True)
             abs_image_list_row.append(abs_image)
+            labels.append("Mag(" + str(index_row) + "), Phase(" + str(index_col) + ")")  # for plotting
         abs_image_list.append(abs_image_list_row)
 
     # plot the images for comparison
-    plot_2d_gray_multi(abs_image_list)
+    plot_multiple_arrays(abs_image_list, "Task 3", labels)
 
     # return results
     return output_image_list
@@ -162,6 +175,6 @@ if __name__ == '__main__':
     # task_1()
     # task_2()
     # task_2(DEFAULT_IMAGES[1])
-    # task_2(DEFAULT_IMAGES[3])
-    task_3()
-    # task_3(DEFAULT_IMAGES[:3])
+    # task_2(DEFAULT_IMAGES[4])
+    # task_3()
+    task_3(DEFAULT_IMAGES[:3])
