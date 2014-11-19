@@ -7,7 +7,6 @@ from plot import plot_multiple_arrays
 
 # imports from libraries
 import numpy as np
-import datetime as dt
 import sys
 
 # GLOBAL VARIABLES
@@ -16,13 +15,6 @@ DEFAULT_IMAGES = ['Resources/bauckhage.jpg',
                   'Resources/bauckhage.jpg',
                   'Resources/cat.png',
                   'Resources/asterixGrey.jpg']
-
-
-def current_datetime_string():
-    """
-    :return: current datetime as string in format YYYYMMDDHHmmss (24 hours)
-    """
-    return dt.datetime.now().strftime("%Y%m%d%H%M%S")
 
 
 def task_1(image_path, radius_min, radius_max):
@@ -55,10 +47,10 @@ def task_1(image_path, radius_min, radius_max):
 
     # Save the output image
     current_datetime = current_datetime_string()
-    save_array_as_gray_image(output_image_array, "Generated/task_1_" + current_datetime + ".jpg")
+    save_array_as_gray_image(output_image_array, "Generated/task_1.jpg")
 
     print "Output Image saved at :",
-    print "Generated/task_1_" + current_datetime + ".jpg"
+    print "Generated/task_1.jpg"
 
     # plot the images for visual comparison
     plot_multiple_arrays([[input_image, output_image_array]],
@@ -70,7 +62,6 @@ def task_1(image_path, radius_min, radius_max):
 
 def task_2(image_path, radius_min, radius_max):
     """
-
     :param image_path: The file path to the image on which the Fourier Transformation is applied
     :param radius_min: Minimal radius defining the inner edge of the ring
     :param radius_max: Maximal radius defining the outer edge of the ring
@@ -113,20 +104,19 @@ def task_2(image_path, radius_min, radius_max):
     abs_output_image = magnitude(output_image)
 
     # save output images
-    current_datetime = current_datetime_string()
     save_array_as_gray_image(np.log(abs_ft_image),
-                             "Generated/task_2_ft_" + current_datetime + ".jpg",
+                             "Generated/task_2_ft.jpg",
                              normalize=True)
     save_array_as_gray_image(abs_suppressed_ft_image,
-                             "Generated/task_2_suppressed_ft_" + current_datetime + ".jpg",
+                             "Generated/task_2_suppressed_ft.jpg",
                              normalize=True)
     save_array_as_gray_image(abs_output_image,
-                             "Generated/task_2_" + current_datetime + ".jpg")
+                             "Generated/task_2.jpg")
 
     print "Output Images saved at :"
-    print "Generated/task_2_ft_" + current_datetime + ".jpg"
-    print "Generated/task_2_suppressed_ft_" + current_datetime + ".jpg"
-    print "Generated/task_2_" + current_datetime + ".jpg"
+    print "Generated/task_2_ft.jpg"
+    print "Generated/task_2_suppressed_ft.jpg"
+    print "Generated/task_2.jpg"
 
     # plot the images for comparison
     labels = ('Original Image: g', 'FT of g: G', 'IFT of G`: g`', 'Suppressed FT G: G`')
@@ -173,7 +163,6 @@ def task_3(image_path_list):
         output_image_list.append(output_image_list_row)
 
     # save output images with descriptive name
-    current_datetime = current_datetime_string()
     abs_image_list = []  # absolutes of result images; done to avoid redundant for-loops; #sorry
     labels = []  # for plotting
     print "Output Images saved at :"
@@ -184,9 +173,9 @@ def task_3(image_path_list):
             abs_image = magnitude(image)
             save_array_as_gray_image(abs_image,
                                      "Generated/task_3_M" + str(index_row) + "_P" + str(
-                                         index_col) + "_" + current_datetime + ".jpg",
+                                         index_col) + ".jpg",
                                      normalize=True)
-            print "Generated/task_3_M" + str(index_row) + "_P" + str(index_col) + "_" + current_datetime + ".jpg"
+            print "Generated/task_3_M" + str(index_row) + "_P" + str(index_col) + ".jpg"
             abs_image_list_row.append(abs_image)
             labels.append("Mag(" + str(index_row) + "), Phase(" + str(index_col) + ")")  # for plotting
         abs_image_list.append(abs_image_list_row)
