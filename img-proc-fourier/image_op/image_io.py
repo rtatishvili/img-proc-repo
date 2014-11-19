@@ -3,15 +3,6 @@ import numpy as np
 from PIL import Image
 
 
-def create_image(image_array):
-    """
-    This method creates grayscale image from array.
-    @param image_array: from which will be the image created.
-    @return: grayscale image 
-    """
-    return Image.fromarray(np.uint8(image_array), 'L')
-
-
 def read_image(image_location, as_array):
     """
     Read image from given location. If as_array == True then the method returns the image as array.
@@ -20,7 +11,7 @@ def read_image(image_location, as_array):
     @param as_array: if true the method returns the image as array, if not then it returns an Image object from PIL
     """
     image = Image.open(image_location, 'r')
-    if as_array == True:
+    if as_array:
         data = []
         pix = image.load()
         for y in xrange(image.size[1]):
@@ -28,14 +19,21 @@ def read_image(image_location, as_array):
         return np.array(data)
     return image
 
-def save_image(image_array, location):
+
+def save_array_as_gray_image(array, location, normalize=False):
     """
     Save array as JPG image. Client must provide the array and the location where the image will be saved.
-    @param image_array: that is saved
-    @param location: where the image is saved
+    @:param array: that is saved
+    @:param location: where the image is saved, the directory must exist
+    @:param normalize: boolean to determine if the array is to be normalized to range 0..255
     """
-    image_array = (image_array - image_array.min()) / (image_array.max() - image_array.min())
-    result = Image.fromarray((image_array * 255).astype(np.uint8))
+    assert len(array.shape) == 2, "only 2D arrays are accepted to generate a gray image"
+
+    # normalize array data to range 0..255
+    if normalize:
+        array = 255 * ((array - array.min()) / (array.max() - array.min()))
+
+    # convert array to Image object
+    result = Image.fromarray(array.astype(np.uint8), 'L')
     result.save(location)
-    return result, image_array
 
