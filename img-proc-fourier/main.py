@@ -46,7 +46,6 @@ def task_1(image_path, radius_min, radius_max):
     output_image_array = ring_mask.apply_mask(input_image)
 
     # Save the output image
-    current_datetime = current_datetime_string()
     save_array_as_gray_image(output_image_array, "Generated/task_1.jpg")
 
     print "Output Image saved at :",
