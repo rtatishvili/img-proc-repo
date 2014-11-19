@@ -19,7 +19,7 @@ DEFAULT_IMAGES = ['Resources/bauckhage.jpg',
 
 def current_datetime_string():
     """
-    :return: current datetime as string in format YYYYMMDDH24mmss
+    :return: current datetime as string in format YYYYMMDDHHmmss (24 hours)
     """
     return dt.datetime.now().strftime("%Y%m%d%H%M%S")
 
