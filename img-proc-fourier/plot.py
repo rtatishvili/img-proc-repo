@@ -1,62 +1,29 @@
-import numpy as np
-
 import matplotlib.pyplot as plt
 
 
-def plot_row(array_list, title_list):
-    plt.figure()
-    subplot = len(array_list) * 100 + 11
-
-
-def plot(im, sh, picture, inverse_p, title):
-    fig = plt.figure()
-    a = fig.add_subplot(2, 2, 1)
-    a.imshow(np.abs(im), cmap=plt.get_cmap('gray'))
-    a.set_title(title[0])
-    a = fig.add_subplot(2, 2, 2)
-    a.imshow(np.log(np.abs(sh)), cmap=plt.get_cmap('gray'))
-    a.set_title(title[1])
-    a = fig.add_subplot(2, 2, 3)
-    a.imshow(np.abs(picture), cmap=plt.get_cmap('gray'))
-    a.set_title(title[2])
-    a = fig.add_subplot(2, 2, 4)
-    a.imshow(np.abs(inverse_p), cmap=plt.get_cmap('gray'))
-    a.set_title(title[3])
-    plt.show()
-
-def plot_clean(im, sh, picture, inverse_p, title):
-    fig = plt.figure()
-    a = fig.add_subplot(2, 2, 1)
-    a.imshow(np.abs(im), cmap=plt.get_cmap('gray'))
-    a.set_title(title[0])
-    a = fig.add_subplot(2, 2, 2)
-    a.imshow(np.abs(sh), cmap=plt.get_cmap('gray'))
-    a.set_title(title[1])
-    a = fig.add_subplot(2, 2, 3)
-    a.imshow(np.abs(picture), cmap=plt.get_cmap('gray'))
-    a.set_title(title[2])
-    a = fig.add_subplot(2, 2, 4)
-    a.imshow(np.abs(inverse_p), cmap=plt.get_cmap('gray'))
-    a.set_title(title[3])
-    plt.show()
-
-
-def plot_2d_gray_multi(im_list):
+def plot_multiple_arrays(im_list, figure_title, labels):
     """
-    :param im_list:
+    plots a 2D list of images into a matrix shape.
+
+    :param im_list: 2D list, in the shape of matrix (list of (row) list of images)
+    :param figure_title: Title for the figure
+    :param labels: labels in the sequence of the image; left to right, top to bottom
     """
-    plt.figure()
+    figure = plt.figure()
+    figure.suptitle(figure_title, fontweight='bold', fontsize=18)
+    figure.canvas.set_window_title(figure_title)
     max_row_size = max([len(x) for x in im_list])
     max_col_size = len(im_list)  # TODO: Gigiti
 
     subplot = 100 * max_col_size + 10 * max_row_size + 1
 
-    for each_row in im_list:
-        for each in each_row:
-            plt.subplot(subplot)
-            plt.imshow(each, cmap=plt.get_cmap('gray'))
-            plt.gca().axes.get_xaxis().set_visible(False)
-            plt.gca().axes.get_yaxis().set_visible(False)
+    for row_index, each_row in enumerate(im_list):
+        for col_index, each in enumerate(each_row):
+            a = figure.add_subplot(subplot)
+            a.set_title(labels[row_index * max_col_size + col_index], fontsize=10)
+            a.imshow(each, cmap=plt.get_cmap('gray'))
+            a.get_xaxis().set_visible(False)
+            a.get_yaxis().set_visible(False)
             subplot += 1
 
     plt.show()
