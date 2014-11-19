@@ -1,5 +1,11 @@
 import numpy as np
+
 import matplotlib.pyplot as plt
+
+
+def plot_row(array_list, title_list):
+    plt.figure()
+    subplot = len(array_list) * 100 + 11
 
 
 def plot(im, sh, picture, inverse_p, title):
@@ -43,12 +49,14 @@ def plot_2d_gray_multi(im_list):
     max_row_size = max([len(x) for x in im_list])
     max_col_size = len(im_list)  # TODO: Gigiti
 
-    subplot = 100 * max_row_size + 10 * max_col_size + 1
+    subplot = 100 * max_col_size + 10 * max_row_size + 1
 
     for each_row in im_list:
         for each in each_row:
             plt.subplot(subplot)
             plt.imshow(each, cmap=plt.get_cmap('gray'))
+            plt.gca().axes.get_xaxis().set_visible(False)
+            plt.gca().axes.get_yaxis().set_visible(False)
             subplot += 1
 
     plt.show()
