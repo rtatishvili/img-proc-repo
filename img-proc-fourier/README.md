@@ -13,5 +13,7 @@ For running demo of specific task, run:
 
 `python main.py <task number>  # e.g. python main.py 1 for task_1 demo`
 
+__Bonus : __ running `python main.py 3x3` performs task_3 on three images from default images
+
 ###How To (as Module):
 Import any module as per requirement. Check Doc-Strings for details of params and returns
