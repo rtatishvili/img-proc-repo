@@ -25,7 +25,7 @@ def current_datetime_string():
     return dt.datetime.now().strftime("%Y%m%d%H%M%S")
 
 
-def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
+def task_1(file_path, radius_min, radius_max):
     # Import image as a numpy.array
     """
     :param file_path: file path to the image on which the ring is to be drawn
@@ -68,7 +68,7 @@ def task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     return output_image_array
 
 
-def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
+def task_2(image_path, radius_min, radius_max):
     """
 
     :param image_path: The file path to the image on which the Fourier Transformation is applied
@@ -136,7 +136,7 @@ def task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.):
     return [ft_image, suppressed_ft_image, output_image]
 
 
-def task_3(image_path_list=DEFAULT_IMAGES[:2]):
+def task_3(image_path_list):
     """
     :param image_path_list: list of paths to images to be combined
     :return: 2D list of combined image arrays, accessed as list[x][y], where, while combining:
@@ -205,17 +205,17 @@ def main(argv):
         task += argv[1]
 
     if task == '1':
-        task_1()
+        task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
     elif task == '2':
-        task_2()
+        task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
     elif task == '3':
-        task_3()
+        task_3(image_path_list=DEFAULT_IMAGES[:2])
     elif task == '3x3':
-        task_3(DEFAULT_IMAGES[:3])
+        task_3(image_path_list=DEFAULT_IMAGES[:3])
     elif task == 'all':
-        task_1()
-        task_2()
-        task_3()
+        task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
+        task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
+        task_3(image_path_list=DEFAULT_IMAGES[:2])
     else:
         print "Unrecognized script parameter"
         sys.exit()
