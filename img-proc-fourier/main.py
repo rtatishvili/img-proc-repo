@@ -25,10 +25,10 @@ def current_datetime_string():
     return dt.datetime.now().strftime("%Y%m%d%H%M%S")
 
 
-def task_1(file_path, radius_min, radius_max):
+def task_1(image_path, radius_min, radius_max):
     # Import image as a numpy.array
     """
-    :param file_path: file path to the image on which the ring is to be drawn
+    :param image_path: file path to the image on which the ring is to be drawn
     :param radius_min: minimal radius of the ring
     :param radius_max: maximal radius of the ring
     :return: array of image data with the applied circle
@@ -36,7 +36,7 @@ def task_1(file_path, radius_min, radius_max):
     print "####################################"
     print
     print "Running Task 1"
-    input_image = read_image(file_path, as_array=True)
+    input_image = read_image(image_path, as_array=True)
 
     # create and apply ring mask, where a ring of True lies in a sea of False
     func_inside_ring = lambda x: 0  # set element to 0 inside the ring
@@ -205,7 +205,7 @@ def main(argv):
         task += argv[1]
 
     if task == '1':
-        task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
+        task_1(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
     elif task == '2':
         task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
     elif task == '3':
@@ -213,7 +213,7 @@ def main(argv):
     elif task == '3x3':
         task_3(image_path_list=DEFAULT_IMAGES[:3])
     elif task == 'all':
-        task_1(file_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
+        task_1(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
         task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
         task_3(image_path_list=DEFAULT_IMAGES[:2])
     else:
