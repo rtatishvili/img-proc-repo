@@ -1,5 +1,5 @@
 # imports from project
-from image_io import read_image, save_array_as_gray_image
+from image_op.image_io import read_image, save_array_as_gray_image
 from calc.fourier_calc import magnitude
 from image_op.image_manip import combine_magnitude_and_phase
 from image_op.ring_mask import RingMask
