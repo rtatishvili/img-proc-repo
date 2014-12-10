@@ -1,6 +1,9 @@
 import unittest
+
 import numpy as np
-from image_op.image_manip import extract_window
+
+from common.image_op.image_manip import extract_window
+
 
 class Test(unittest.TestCase):
     def test_extract_inner(self):

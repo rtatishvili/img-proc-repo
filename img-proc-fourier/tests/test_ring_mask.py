@@ -1,6 +1,9 @@
 import unittest
+
 import numpy as np
-from image_op.ring_mask import RingMask 
+
+from common.image_op.ring_mask import RingMask
+
 
 def func(size):
     condition_list = []

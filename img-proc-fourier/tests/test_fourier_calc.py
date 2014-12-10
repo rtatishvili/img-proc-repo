@@ -1,8 +1,8 @@
 import unittest
+
 import numpy as np
 
-from calc import fourier_calc as fourier_calc
-from image_op import image_io as image_io
+from common.calc import fourier_calc as fourier_calc
 
 
 class Test(unittest.TestCase):

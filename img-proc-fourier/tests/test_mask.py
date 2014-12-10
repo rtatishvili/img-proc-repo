@@ -1,6 +1,9 @@
 import unittest
+
 import numpy as np
-from image_op.mask import Mask 
+
+from common.image_op.mask import Mask
+
 
 class Test(unittest.TestCase):
     

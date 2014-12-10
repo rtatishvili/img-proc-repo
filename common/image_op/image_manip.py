@@ -1,6 +1,6 @@
 import numpy as np
 
-from calc import fourier_calc
+from common.calc import fourier_calc
 
 
 def combine_magnitude_and_phase(ft_magnitude_image, ft_phase_image):
