@@ -32,6 +32,20 @@ class Test(unittest.TestCase):
         window = extract_window(img, size, center)
         np.testing.assert_array_equal(window, expected)
 
+    def test_extract_beyond_left_fill_edge(self):
+        img = np.arange(49).reshape(7, 7)
+        size = (5, 5)
+        center = (4, 0)
+        expected = np.array([[14, 14, 14, 15, 16],
+                             [21, 21, 21, 22, 23],
+                             [28, 28, 28, 29, 30],
+                             [35, 35, 35, 36, 37],
+                             [42, 42, 42, 43, 44]])
+
+        window = extract_window(img, size, center, 'edge')
+        np.testing.assert_array_equal(window, expected)
+
+
     def test_extract_beyond_right(self):
         img = np.arange(49).reshape(7, 7)
         size = (5, 5)
@@ -43,6 +57,19 @@ class Test(unittest.TestCase):
                              [46, 47, 48, 0, 0 ]])
 
         window = extract_window(img, size, center)
+        np.testing.assert_array_equal(window, expected)
+
+    def test_extract_beyond_right_fill_edge(self):
+        img = np.arange(49).reshape(7, 7)
+        size = (5, 5)
+        center = (4, 6)
+        expected = np.array([[18, 19, 20, 20, 20],
+                             [25, 26, 27, 27, 27],
+                             [32, 33, 34, 34, 34],
+                             [39, 40, 41, 41, 41],
+                             [46, 47, 48, 48, 48]])
+
+        window = extract_window(img, size, center, 'edge')
         np.testing.assert_array_equal(window, expected)
 
 
@@ -59,6 +86,21 @@ class Test(unittest.TestCase):
         window = extract_window(img, size, center)
         np.testing.assert_array_equal(window, expected)
 
+
+    def test_extract_beyond_top_fill_edge(self):
+        img = np.arange(49).reshape(7, 7)
+        size = (5, 5)
+        center = (0, 4)
+        expected = np.array([[ 2,  3,  4,  5,  6],
+                             [ 2,  3,  4,  5,  6],
+                             [ 2,  3,  4,  5,  6],
+                             [ 9, 10, 11, 12, 13],
+                             [16, 17, 18, 19, 20]])
+
+        window = extract_window(img, size, center, 'edge')
+        np.testing.assert_array_equal(window, expected)
+
+
     def test_extract_beyond_bottom(self):
         img = np.arange(49).reshape(7, 7)
         size = (5, 5)
@@ -72,6 +114,21 @@ class Test(unittest.TestCase):
         window = extract_window(img, size, center)
         np.testing.assert_array_equal(window, expected)
 
+
+    def test_extract_beyond_bottom_fill_edge(self):
+        img = np.arange(49).reshape(7, 7)
+        size = (5, 5)
+        center = (6, 4)
+        expected = np.array([[30, 31, 32, 33, 34],
+                             [37, 38, 39, 40, 41],
+                             [44, 45, 46, 47, 48],
+                             [44, 45, 46, 47, 48],
+                             [44, 45, 46, 47, 48]])
+                             
+        window = extract_window(img, size, center, 'edge')
+        np.testing.assert_array_equal(window, expected)
+
+
     def test_extract_beyond_corner(self):
         img = np.arange(49).reshape(7, 7)
         size = (5, 5)
@@ -84,6 +141,20 @@ class Test(unittest.TestCase):
 
         window = extract_window(img, size, center)
         np.testing.assert_array_equal(window, expected)
+
+    def test_extract_beyond_corner_fill_edge(self):
+        img = np.arange(49).reshape(7, 7)
+        size = (5, 5)
+        center = (0, 0)
+        expected = np.array([[ 0,  0,  0,  1,  2],
+                             [ 0,  0,  0,  1,  2],
+                             [ 0,  0,  0,  1,  2],
+                             [ 7,  7,  7,  8,  9],
+                             [14, 14, 14, 15, 16]])
+
+        window = extract_window(img, size, center, 'edge')
+        np.testing.assert_array_equal(window, expected)
+
 
     def test_extract_wrong_sizes(self):
         img = np.arange(49).reshape(7, 7)
