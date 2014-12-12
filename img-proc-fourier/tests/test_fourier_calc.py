@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from common.calc import fourier_calc as fourier_calc
+from calc import fourier_calc as fourier_calc
 
 
 class Test(unittest.TestCase):

@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from common.image_op.mask import Mask
+from image_op.mask import Mask
 
 
 class Test(unittest.TestCase):

@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from common.image_op.ring_mask import RingMask
+from image_op.ring_mask import RingMask
 
 
 def func(size):

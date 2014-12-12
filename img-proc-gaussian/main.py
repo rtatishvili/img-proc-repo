@@ -1,6 +1,8 @@
 import sys
-from common.image_op.image_io import read_image, save_array_as_gray_image
-from common.plot import plot_multiple_arrays
+
+from image_op.image_io import read_image
+from plot import plot_multiple_arrays
+
 
 def task_1():
     print 'task 1'

@@ -1,5 +1,5 @@
-from common.image_op.mask import Mask
-from common.calc.distance import euclidean_2d_array
+from image_op.mask import Mask
+from calc.distance import euclidean_2d_array
 
 
 class RingMask(Mask):

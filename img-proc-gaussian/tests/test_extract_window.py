@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from common.image_op.image_manip import extract_window
+from image_op.image_manip import extract_window
 
 
 class Test(unittest.TestCase):

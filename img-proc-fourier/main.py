@@ -1,9 +1,9 @@
 # imports from project
-from common.image_op.image_io import read_image, save_array_as_gray_image
-from common.calc.fourier_calc import magnitude
-from common.image_op.image_manip import combine_magnitude_and_phase
-from common.image_op.ring_mask import RingMask
-from common.plot import plot_multiple_arrays
+from image_op.image_io import read_image, save_array_as_gray_image
+from calc.fourier_calc import magnitude
+from image_op.image_manip import combine_magnitude_and_phase
+from image_op.ring_mask import RingMask
+from plot import plot_multiple_arrays
 
 # imports from libraries
 import numpy as np

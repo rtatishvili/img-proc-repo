@@ -1,7 +1,8 @@
+from exceptions import RuntimeError
+
 import numpy as np
 
-from common.calc import fourier_calc
-from exceptions import RuntimeError
+from calc import fourier_calc
 
 def combine_magnitude_and_phase(ft_magnitude_image, ft_phase_image):
     """
