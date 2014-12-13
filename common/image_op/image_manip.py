@@ -93,3 +93,25 @@ def extract_window(image, size, center, mode = 'constant'):
     window = insert_beyond_edge(window, window.shape[0], size[0], center[0], mode, 0)
 
     return window
+
+def applay_array_mask_on_window(image, array_x, array_y, center):
+    window = extract_window(image, (array_x.shape[0], array_y.shape[0]), center)
+    return sum((window * array_x).sum(axis=1) * array_y )
+
+def applay_matrix_mask_on_window(image, mask, center):
+    window = extract_window(image, mask.shape, center)
+    return sum(sum(window * mask))
+
+def applay_array_mask(image, array_x, array_y):
+    result_ = np.zeros(image.shape)
+    for i in range(image.shape[0]):
+        for j in range(image.shape[1]):
+            result_[i, j] = applay_array_mask_on_window(image, array_x, array_y, (i, j))
+    return result_
+
+def applay_matrix_mask(image, mask):
+    result_ = np.zeros(image.shape)
+    for i in range(image.shape[0]):
+        for j in range(image.shape[1]):
+            result_[i, j] = applay_matrix_mask_on_window(image, mask, (i, j))
+    return result_
