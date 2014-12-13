@@ -7,8 +7,8 @@ from calc import fourier_calc
 
 def combine_magnitude_and_phase(ft_magnitude_image, ft_phase_image):
     """
-    This method creates new image by combining the magnitude form **ft_magnitude_image** and phase from **ft_phase_image**. Client must provide
-    two images with same resolution.
+    This method creates new image by combining the magnitude form **ft_magnitude_image** and phase
+    from **ft_phase_image**. Client must provide two images with same resolution.
     @param ft_magnitude_image: Fourier transform of the first image
     @param ft_phase_image: Fourier transform of the second image
     @return: new image
@@ -67,7 +67,6 @@ def fill_missing(window, iteration_count, size, window_side, mode, axis):
                 new_edge = window[edge_index, :]
 
             window = np.insert(window, position, new_edge, axis=axis)
-            print window
         else:
             raise RuntimeError
 
@@ -99,19 +98,9 @@ def extract_window(image, size, center, mode='constant'):
     return window
 
 
-# def __apply_array_mask_on_window(image, array_x, array_y, center):
-#     window = extract_window(image, (array_x.shape[0], array_y.shape[0]), center)
-#     return sum((window * array_x).sum(axis=1) * array_y)
-
-
 def __apply_matrix_mask_on_window(image, mask, center):
-    window = extract_window(image, mask.shape, center)
-    return sum(sum(window * mask))
-
-
-# def apply_array_mask(image, array_x, array_y):
-#     tmp_ = apply_matrix_mask(image, array_x)
-#     return apply_matrix_mask(tmp_, array_y)
+    window = extract_window(image, mask.shape, center, 'edge')
+    return np.sum(window * mask)
 
 
 def apply_matrix_mask(image, mask):
@@ -131,8 +120,8 @@ def apply_matrix_mask(image, mask):
 
 
 def __apply_array_mask_on_window(image, array_x, array_y, center):
-    window = extract_window(image, (array_x.shape[0], array_y.shape[0]), center)
-    return sum((window * array_x).sum(axis=1) * array_y)
+    window = extract_window(image, (array_x.shape[0], array_y.shape[0]), center, 'edge')
+    return window.dot(array_x).dot(array_y)
 
 
 def apply_array_mask(image, array_x, array_y):
@@ -141,3 +130,4 @@ def apply_array_mask(image, array_x, array_y):
         for j in range(image.shape[1]):
             result_[i, j] = __apply_array_mask_on_window(image, array_x, array_y, (i, j))
     return result_
+

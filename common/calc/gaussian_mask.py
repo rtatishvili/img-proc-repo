@@ -6,15 +6,15 @@ def __calculate_sigma(m):
     return (m - 1.0) / (2.0 * 2.575)
 
 
-def __calculate_gauss_dimension(size):
+def __calculate_distance_from_center(size):
     m = (size - 1.) / 2.
     x = np.arange(-m, m + 1)
     return x * x
 
 
 def __generate_gauss(size=(3, 3), sigma=0.5):
-    p = __calculate_gauss_dimension(size)
-    mask = np.exp(-p / (2. * sigma * sigma))
+    distance = __calculate_distance_from_center(size)
+    mask = np.exp(-distance / (2. * sigma * sigma))
     sum_ = mask.sum()
     if sum_ != 0:
         mask /= sum_
@@ -49,3 +49,10 @@ def generate_gauss_2d(size=(3, 3), sigma=None):
     x_dimension = generate_gauss_1d(size[0], y_direction=False, sigma=sigma)
     y_dimension = generate_gauss_1d(size[1], y_direction=True, sigma=sigma)
     return x_dimension*y_dimension
+
+
+def zero_pad_mask(mask, size_to):
+    x = (size_to[0]-mask.shape[0])
+    y = (size_to[1]-mask.shape[1])
+    # return np.pad(mask, ((x/2 + x%2, x/2), (y/2  + y%2, y/2)), mode='mean')
+    return np.pad(mask, ((x/2 + x%2, x/2), (y/2  + y%2, y/2)), mode='constant', constant_values=(0, 0))

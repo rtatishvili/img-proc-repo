@@ -1,4 +1,3 @@
-import numpy
 
 __author__ = 'kostadin'
 
@@ -18,35 +17,19 @@ class MyTestCase(unittest.TestCase):
         mask_1d_y = gm.generate_gauss_1d(3, True)
         np.testing.assert_array_equal(mask_2d, mask_1d_x*mask_1d_y)
 
-    def test_apply(self):
-        window = np.arange(49).reshape((7, 7))
-        mask = gm.generate_gauss_1d(3)
-        print window
-        # print mask
-        # print sum(sum(window * mask))
-        print im.extract_window(window, (1, 3), (2, 4))
 
-
-    def test_gaussian_blur_vector(self):
+    def test_frequency_domain(self):
         image = io.read_image("../Resources/bauckhage.jpg", as_array=True)
-        array_x = gm.generate_gauss_1d(size=15)
-        array_y = gm.generate_gauss_1d(size=15)
-        t = time.time()
-        new_image = im.apply_array_mask(image, array_x, array_y)
-        print time.time() - t
-        print "test1:" + str(new_image[0, 0])
-        io.save_array_as_gray_image(new_image, "../Generated/bauckhage11.jpg")
-    #
-    def test_gaussian_blur_matrix(self):
-        image = io.read_image("../Resources/bauckhage.jpg", as_array=True)
+        mask_2d = gm.generate_gauss_2d((15, 15))
+        mask = gm.zero_pad_mask(mask_2d, image.shape)
+        image_fft = np.fft.fftshift(np.fft.fft2(image))
+        mask_fft = np.fft.fftshift(np.fft.fft2(mask))
 
-        mask = gm.generate_gauss_2d((15, 15))
-        t = time.time()
-        new_image = im.apply_matrix_mask(image, mask)
-        print time.time() - t
-        print "test2:" + str(new_image[0, 0])
-        io.save_array_as_gray_image(new_image, "../Generated/bauckhage1.jpg")
-        io.save_array_as_gray_image(new_image - image, "../Generated/bauckhage2.jpg")
+        new_image_fft = image_fft * mask_fft
+        new_image = np.fft.ifftshift(np.fft.ifft2(new_image_fft))
+        io.save_array_as_gray_image(np.abs(new_image), "../Generated/bauckhage_frequnecy.jpg")
+        np.testing.assert_equal(gm.zero_pad_mask(mask_2d, (256, 256)).shape, (256, 256))
+
 
     def test_as(self):
         image = io.read_image("../Resources/bauckhage.jpg", as_array=True)
@@ -54,18 +37,40 @@ class MyTestCase(unittest.TestCase):
         array_y = gm.generate_gauss_1d(size=15)
 
         mask = gm.generate_gauss_2d((15, 15))
+
         t = time.time()
         new_image_2d = im.apply_matrix_mask(image, mask)
         print "2D: " + str(time.time() - t)
+
         t1 = time.time()
         new_image_1d = im.apply_array_mask(image, array_x, array_y)
         print "1D: " + str(time.time() - t1)
 
-        io.save_array_as_gray_image(new_image_2d, "../Generated/bauckhage1.jpg")
-        io.save_array_as_gray_image(new_image_2d - image, "../Generated/bauckhage2.jpg")
-        io.save_array_as_gray_image(new_image_1d, "../Generated/bauckhage11.jpg")
+        mask_zero = gm.zero_pad_mask(mask, image.shape)
+        mask_zero_double = gm.zero_pad_mask(mask, (512, 512))
+        mask_fft = np.fft.fftshift(np.fft.fft2(mask_zero))
+        mask_fft_double = np.fft.fftshift(np.fft.fft2(mask_zero_double))
+        mask_original = np.fft.fftshift(np.fft.fft2(mask))
+        t2 = time.time()
+        image_fft = np.fft.fftshift(np.fft.fft2(image))
+        # new_image_fft = image_fft * mask_fft
+        new_image_fft = image_fft * mask_fft
+        new_image_freq = np.fft.ifftshift(np.fft.ifft2(new_image_fft))
+        print "freq: " + str(time.time() - t2)
 
+        io.save_array_as_gray_image(np.abs(np.log(mask_original)), "../Generated/mask_org.jpg")
+        io.save_array_as_gray_image(np.abs(np.log(mask_fft)), "../Generated/mask_freq.jpg")
+        io.save_array_as_gray_image(np.abs(np.log(mask_fft_double)), "../Generated/mask_freq_double.jpg")
+        io.save_array_as_gray_image(np.abs(new_image_freq), "../Generated/bauckhage_frequnecy.jpg")
+        io.save_array_as_gray_image(new_image_2d, "../Generated/bauckhage_2s.jpg")
+        io.save_array_as_gray_image(new_image_2d - image, "../Generated/bauckhage_edge.jpg")
+        io.save_array_as_gray_image(new_image_1d, "../Generated/bauckhage_1d.jpg")
+        io.save_array_as_gray_image(np.abs(np.abs(new_image_freq) - new_image_2d), "../Generated/bauckhage_test2.jpg")
         np.testing.assert_array_almost_equal(new_image_1d, new_image_2d, 6)
+
+        print np.max(np.abs(np.abs(new_image_freq) - new_image_2d))
+
+        np.testing.assert_array_almost_equal(new_image_1d, np.abs(new_image_freq), 6)
 
 if __name__ == '__main__':
     unittest.main()
