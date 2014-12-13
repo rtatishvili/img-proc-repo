@@ -54,8 +54,16 @@ class MyTestCase(unittest.TestCase):
         array_y = gm.generate_gauss_1d(size=15)
 
         mask = gm.generate_gauss_2d((15, 15))
+        t = time.time()
         new_image_2d = im.apply_matrix_mask(image, mask)
+        print "2D: " + str(time.time() - t)
+        t1 = time.time()
         new_image_1d = im.apply_array_mask(image, array_x, array_y)
+        print "1D: " + str(time.time() - t1)
+
+        io.save_array_as_gray_image(new_image_2d, "../Generated/bauckhage1.jpg")
+        io.save_array_as_gray_image(new_image_2d - image, "../Generated/bauckhage2.jpg")
+        io.save_array_as_gray_image(new_image_1d, "../Generated/bauckhage11.jpg")
 
         np.testing.assert_array_almost_equal(new_image_1d, new_image_2d, 6)
 
