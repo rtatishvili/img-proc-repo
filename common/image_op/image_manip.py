@@ -85,6 +85,7 @@ def extract_window(image, size, center, mode='constant'):
     @param image: original 2D array of an image
     @param size: size of the window as tuple (rows, cols). It should be odd values and should be equal (square)
     @param center: center coordinates of the window on th image as tuple (rows, cols)
+    @param mode: how to fill the values: constant fills with zeroes, edge fills the replicas of correspoding edge
     @return: new image
     """
     # assert (size[0] % 2 != 0), "size has even value at the y dimension"
