@@ -20,8 +20,8 @@ class Test(unittest.TestCase):
         
         mask_vector = np.array([-1, 0, 1])
         
-        gradient_image_x = im.apply_matrix_mask(image, mask_x);
-        gradient_image_y = im.apply_matrix_mask(image, mask_y);
+        gradient_image_x = im.apply_matrix_mask(image, mask_x)
+        gradient_image_y = im.apply_matrix_mask(image, mask_y)
         gradient_image_xy = im.apply_array_mask(image, mask_vector, np.transpose(mask_vector))
         
         io.save_array_as_gray_image(gradient_image_x, "../Generated/gradient_x.jpg", normalize=True)
