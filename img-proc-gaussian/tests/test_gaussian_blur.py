@@ -17,7 +17,6 @@ class MyTestCase(unittest.TestCase):
         mask_1d_y = gm.generate_gauss_1d(3, True)
         np.testing.assert_array_equal(mask_2d, mask_1d_x*mask_1d_y)
 
-
     def test_frequency_domain(self):
         image = io.read_image("../Resources/bauckhage.jpg", as_array=True)
         mask_2d = gm.generate_gauss_2d((15, 15))
@@ -29,7 +28,6 @@ class MyTestCase(unittest.TestCase):
         new_image = np.fft.ifftshift(np.fft.ifft2(new_image_fft))
         io.save_array_as_gray_image(np.abs(new_image), "../Generated/bauckhage_frequnecy.jpg")
         np.testing.assert_equal(gm.zero_pad_mask(mask_2d, (256, 256)).shape, (256, 256))
-
 
     def test_as(self):
         image = io.read_image("../Resources/bauckhage.jpg", as_array=True)
