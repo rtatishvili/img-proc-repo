@@ -44,29 +44,20 @@ class MyTestCase(unittest.TestCase):
         new_image_1d = im.apply_array_mask(image, array_x, array_y)
         print "1D: " + str(time.time() - t1)
 
-        mask_zero = gm.zero_pad_mask(mask, image.shape)
-        mask_zero_double = gm.zero_pad_mask(mask, (512, 512))
-        mask_fft = np.fft.fftshift(np.fft.fft2(mask_zero))
-        mask_fft_double = np.fft.fftshift(np.fft.fft2(mask_zero_double))
-        mask_original = np.fft.fftshift(np.fft.fft2(mask))
         t2 = time.time()
-        image_fft = np.fft.fftshift(np.fft.fft2(image))
-        # new_image_fft = image_fft * mask_fft
-        new_image_fft = image_fft * mask_fft
-        new_image_freq = np.fft.ifftshift(np.fft.ifft2(new_image_fft))
+        mask_zero = gm.zero_pad_mask(mask, image.shape)
+        new_image_freq = im.apply_fourier_mask(image, mask_zero)
         print "freq: " + str(time.time() - t2)
 
-        io.save_array_as_gray_image(np.abs(np.log(mask_original)), "../Generated/mask_org.jpg")
-        io.save_array_as_gray_image(np.abs(np.log(mask_fft)), "../Generated/mask_freq.jpg")
-        io.save_array_as_gray_image(np.abs(np.log(mask_fft_double)), "../Generated/mask_freq_double.jpg")
+
         io.save_array_as_gray_image(np.abs(new_image_freq), "../Generated/bauckhage_frequnecy.jpg")
         io.save_array_as_gray_image(new_image_2d, "../Generated/bauckhage_2s.jpg")
         io.save_array_as_gray_image(new_image_2d - image, "../Generated/bauckhage_edge.jpg")
         io.save_array_as_gray_image(new_image_1d, "../Generated/bauckhage_1d.jpg")
-        io.save_array_as_gray_image(np.abs(np.abs(new_image_freq) - new_image_2d), "../Generated/bauckhage_test2.jpg")
+
         np.testing.assert_array_almost_equal(new_image_1d, new_image_2d, 6)
 
-        print np.max(np.abs(np.abs(new_image_freq) - new_image_2d))
+
 
         np.testing.assert_array_almost_equal(new_image_1d[10:-10, 10:-10], np.abs(new_image_freq[10:-10, 10:-10]), 6)
 #         np.testing.assert_array_almost_equal(new_image_1d, np.abs(new_image_freq), 6)

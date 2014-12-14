@@ -132,3 +132,11 @@ def apply_array_mask(image, array_x, array_y):
             result_[i, j] = __apply_array_mask_on_window(image, array_x, array_y, (i, j))
     return result_
 
+
+def apply_fourier_mask(image, mask):
+    mask_fft = np.fft.fftshift(np.fft.fft2(mask))
+    image_fft = np.fft.fftshift(np.fft.fft2(image))
+    new_image_fft = image_fft * mask_fft
+
+    return np.fft.ifftshift(np.fft.ifft2(new_image_fft))
+

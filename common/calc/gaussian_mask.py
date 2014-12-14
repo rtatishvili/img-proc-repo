@@ -59,22 +59,20 @@ def zero_pad_mask(mask, size_to):
 
 
 def gauss_derivative_kernels(size=(3, 3), sigma=None):
-    """ returns x and y derivatives of a 2D
-        gauss kernel array for convolutions """
+    """
+
+    :rtype : object
+    """
     m, n = [(cc - 1.) / 2. for cc in size]
     y, x = np.mgrid[-m:m + 1, -n:n + 1]
     gauss_filter = generate_gauss_2d(size, sigma)
-    gx = - x * gauss_filter
-    gy = - y * gauss_filter
+    gx = x * gauss_filter
+    gy = y * gauss_filter
 
     return gx, gy
 
 
 def gauss_derivatives(image, filter_size=(3, 3)):
-    """ returns x and y derivatives of an image using gaussian
-        derivative filters of size n. The optional argument
-        ny allows for a different size in the y direction."""
-
     gx, gy = gauss_derivative_kernels(filter_size)
 
     imx = img_mp.apply_matrix_mask(image, gx)
