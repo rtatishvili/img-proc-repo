@@ -155,7 +155,6 @@ class Test(unittest.TestCase):
         window = extract_window(img, size, center, 'edge')
         np.testing.assert_array_equal(window, expected)
 
-
     def test_extract_wrong_sizes(self):
         img = np.arange(49).reshape(7, 7)
         center = (0, 0)

@@ -23,13 +23,14 @@ def __generate_gauss(size=(3, 3), sigma=0.5):
 
 def generate_gauss_1d(size=3, y_direction=False, sigma=None):
     """
+    Generates one dimensional Gaussian filter. Client can specify the size of the filter,
+    is it transposed and size of the variance.
 
-
-    :rtype : object
-    :type y_direction: object
-    :param size:
-    :param sigma:
-    :return:
+    :rtype : ndarray
+    :type y_direction: True if the vector is transposed
+    :param size: of the filter
+    :param sigma: size of the variance
+    :return: one dimensional Gaussian filter
     """
     if sigma is None:
         sigma = __calculate_sigma(size)
@@ -40,9 +41,11 @@ def generate_gauss_1d(size=3, y_direction=False, sigma=None):
 
 def generate_gauss_2d(size=(3, 3), sigma=None):
     """
-    2D gaussian mask 
-    :param size:
-    :param sigma:
+    Generates two dimensional Gaussian filter. Client can specify the size of the filter,
+    size of the variance.
+
+    :param size: of the mask
+    :param sigma: size of the variance
     """
     if sigma is None:
         sigma = __calculate_sigma(size[0])
@@ -52,17 +55,19 @@ def generate_gauss_2d(size=(3, 3), sigma=None):
 
 
 def zero_pad_mask(mask, size_to):
+    """
+
+    :param mask:
+    :param size_to:
+    :return:
+    """
     x = (size_to[0] - mask.shape[0])
     y = (size_to[1] - mask.shape[1])
     # return np.pad(mask, ((x/2 + x%2, x/2), (y/2  + y%2, y/2)), mode='mean')
     return np.pad(mask, ((x / 2 + x % 2, x / 2), (y / 2 + y % 2, y / 2)), mode='constant', constant_values=(0, 0))
 
 
-def gauss_derivative_kernels(size=(3, 3), sigma=None):
-    """
-
-    :rtype : object
-    """
+def __gauss_derivative_kernels(size=(3, 3), sigma=None):
     m, n = [(cc - 1.) / 2. for cc in size]
     y, x = np.mgrid[-m:m + 1, -n:n + 1]
     gauss_filter = generate_gauss_2d(size, sigma)
@@ -73,7 +78,14 @@ def gauss_derivative_kernels(size=(3, 3), sigma=None):
 
 
 def gauss_derivatives(image, filter_size=(3, 3)):
-    gx, gy = gauss_derivative_kernels(filter_size)
+    """
+    Apply derivative of a Gaussian filter on image. Client must provide image and filter size.
+
+    :param image: to be filtered
+    :param filter_size: of the filter
+    :return:
+    """
+    gx, gy = __gauss_derivative_kernels(filter_size)
 
     imx = img_mp.apply_matrix_mask(image, gx)
     imy = img_mp.apply_matrix_mask(image, gy)

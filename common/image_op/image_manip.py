@@ -106,12 +106,13 @@ def __apply_matrix_mask_on_window(image, mask, center):
 
 def apply_matrix_mask(image, mask):
     """
+    Convolution of two dimension mask to an image. Client must provide
+    2D mask and image.
 
-
-    :rtype : object
-    :param image:
-    :param mask:
-    :return:
+    :rtype : ndarray
+    :param image: to be filtered
+    :param mask: to apply
+    :return: new filtered image
     """
     result_ = np.zeros(image.shape)
     for i in range(image.shape[0]):
@@ -126,6 +127,15 @@ def __apply_array_mask_on_window(image, array_x, array_y, center):
 
 
 def apply_array_mask(image, array_x, array_y):
+    """
+    Convolution of two one dimensional mask on an image. Client must provide
+    two one dimensional Gaussian masks.
+
+    :param image: to be filtered
+    :param array_x: mask in x direction
+    :param array_y: mask in y direction
+    :return:
+    """
     result_ = np.zeros(image.shape)
     for i in range(image.shape[0]):
         for j in range(image.shape[1]):
@@ -134,6 +144,14 @@ def apply_array_mask(image, array_x, array_y):
 
 
 def apply_fourier_mask(image, mask):
+    """
+    Apply two dimensional Gaussian filter on image. Using the Fourier Transformations.
+    Client must provide image and two dimensional mask.
+
+    :param image: to be filtered
+    :param mask:
+    :return: new filtered image
+    """
     mask_fft = np.fft.fftshift(np.fft.fft2(mask))
     image_fft = np.fft.fftshift(np.fft.fft2(image))
     new_image_fft = image_fft * mask_fft
