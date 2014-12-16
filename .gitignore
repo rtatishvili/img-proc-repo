@@ -53,3 +53,10 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# IDEA
+.idea
+
+# Ipython Notebooks
+.ipynb_checkpoints
+*.ipynb
