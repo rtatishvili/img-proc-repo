@@ -2,10 +2,42 @@ import unittest
 
 import numpy as np
 
-from image_op.image_manip import extract_window
+import image_op.image_manip as im
+
 
 
 class Test(unittest.TestCase):
+
+
+    def test_extract_padding(self):
+        img = np.arange(49).reshape(7, 7)
+        size = (5, 5)
+        center = (4, 4)
+        expected = np.array([[ 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 0,  1,  2,  3,  4,  5,  6, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 7,  8,  9, 10, 11, 12, 13, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0,14, 15, 16, 17, 18, 19, 20, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0,21, 22, 23, 24, 25, 26, 27, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0,28, 29, 30, 31, 32, 33, 34, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0,35, 36, 37, 38, 39, 40, 41, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0,42, 43, 44, 45, 46, 47, 48, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0, 0,  0,  0,  0],
+                             [ 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0, 0,  0,  0,  0]])
+
+        image_with_padding = im.extract_window_padding(img, size)
+                
+        np.testing.assert_array_equal(image_with_padding, expected)
+        
+            
+
+    
     def test_extract_inner(self):
         img = np.arange(49).reshape(7, 7)
         size = (5, 5)
@@ -16,7 +48,7 @@ class Test(unittest.TestCase):
                              [37, 38, 39, 40, 41],
                              [44, 45, 46, 47, 48]])
 
-        window = extract_window(img, size, center)
+        window = im.extract_window(img, size, center)
         np.testing.assert_array_equal(window, expected)
 
     def test_extract_beyond_left(self):
@@ -29,7 +61,7 @@ class Test(unittest.TestCase):
                              [0, 0, 35, 36, 37],
                              [0, 0, 42, 43, 44]])
 
-        window = extract_window(img, size, center)
+        window = im.extract_window(img, size, center)
         np.testing.assert_array_equal(window, expected)
 
     def test_extract_beyond_left_fill_edge(self):
@@ -42,7 +74,7 @@ class Test(unittest.TestCase):
                              [35, 35, 35, 36, 37],
                              [42, 42, 42, 43, 44]])
 
-        window = extract_window(img, size, center, 'edge')
+        window = im.extract_window(img, size, center, 'edge')
         np.testing.assert_array_equal(window, expected)
 
 
@@ -56,7 +88,7 @@ class Test(unittest.TestCase):
                              [39, 40, 41, 0, 0 ],
                              [46, 47, 48, 0, 0 ]])
 
-        window = extract_window(img, size, center)
+        window = im.extract_window(img, size, center)
         np.testing.assert_array_equal(window, expected)
 
     def test_extract_beyond_right_fill_edge(self):
@@ -69,7 +101,7 @@ class Test(unittest.TestCase):
                              [39, 40, 41, 41, 41],
                              [46, 47, 48, 48, 48]])
 
-        window = extract_window(img, size, center, 'edge')
+        window = im.extract_window(img, size, center, 'edge')
         np.testing.assert_array_equal(window, expected)
 
 
@@ -83,7 +115,7 @@ class Test(unittest.TestCase):
                              [ 9, 10, 11, 12, 13],
                              [16, 17, 18, 19, 20]])
 
-        window = extract_window(img, size, center)
+        window = im.extract_window(img, size, center)
         np.testing.assert_array_equal(window, expected)
 
 
@@ -97,7 +129,7 @@ class Test(unittest.TestCase):
                              [ 9, 10, 11, 12, 13],
                              [16, 17, 18, 19, 20]])
 
-        window = extract_window(img, size, center, 'edge')
+        window = im.extract_window(img, size, center, 'edge')
         np.testing.assert_array_equal(window, expected)
 
 
@@ -111,7 +143,7 @@ class Test(unittest.TestCase):
                              [ 0,  0,  0,  0,  0],
                              [ 0,  0,  0,  0,  0]])
 
-        window = extract_window(img, size, center)
+        window = im.extract_window(img, size, center)
         np.testing.assert_array_equal(window, expected)
 
 
@@ -125,7 +157,7 @@ class Test(unittest.TestCase):
                              [44, 45, 46, 47, 48],
                              [44, 45, 46, 47, 48]])
                              
-        window = extract_window(img, size, center, 'edge')
+        window = im.extract_window(img, size, center, 'edge')
         np.testing.assert_array_equal(window, expected)
 
 
@@ -139,7 +171,7 @@ class Test(unittest.TestCase):
                              [ 0,  0,  7,  8,  9],
                              [ 0,  0, 14, 15, 16]])
 
-        window = extract_window(img, size, center)
+        window = im.extract_window(img, size, center)
         np.testing.assert_array_equal(window, expected)
 
     def test_extract_beyond_corner_fill_edge(self):
@@ -152,33 +184,8 @@ class Test(unittest.TestCase):
                              [ 7,  7,  7,  8,  9],
                              [14, 14, 14, 15, 16]])
 
-        window = extract_window(img, size, center, 'edge')
+        window = im.extract_window(img, size, center, 'edge')
         np.testing.assert_array_equal(window, expected)
-
-
-    def test_extract_wrong_sizes(self):
-        img = np.arange(49).reshape(7, 7)
-        center = (0, 0)
-
-        size = (4, 5)
-        self.assertRaises(AssertionError, extract_window, img, size, center)
-        size = (5, 4)
-        self.assertRaises(AssertionError, extract_window, img, size, center)
-        size = (4, 4)
-        self.assertRaises(AssertionError, extract_window, img, size, center)
-        size = (3, 5)
-        self.assertRaises(AssertionError, extract_window, img, size, center)
-
-    
-
-    #def test_extract_fill_with_constant(self):
-    #    self.fail("Not implemented")
-    
-    #def test_extract_fill_with_edge(self):
-    #    self.fail("Not implemented")
-
-    #def test_extract_fill_with_mirror(self):
-    #    self.fail("Not implemented")
 
 
 if __name__ == '__main__':

@@ -98,6 +98,12 @@ def extract_window(image, size, center, mode='constant'):
 
     return window
 
+def extract_window_padding(image, size, mode='constant'):
+    return extract_window(image, \
+                          (image.shape[0] + 2 * size[0] + (image.shape[0] % 2) - 1 , \
+                           image.shape[1] + 2 * size[1] + (image.shape[1] % 2) - 1), \
+                          (image.shape[0] / 2, image.shape[1] / 2), mode)
+
 
 def __apply_matrix_mask_on_window(image, mask, center):
     window = extract_window(image, mask.shape, center, 'edge')
@@ -106,18 +112,24 @@ def __apply_matrix_mask_on_window(image, mask, center):
 
 def apply_matrix_mask(image, mask):
     """
+    Convolution of two dimension mask to an image. Client must provide
+    2D mask and image.
 
-
-    :rtype : object
-    :param image:
-    :param mask:
-    :return:
+    :rtype : ndarray
+    :param image: to be filtered
+    :param mask: to apply
+    :return: new filtered image
     """
-    result_ = np.zeros(image.shape)
-    for i in range(image.shape[0]):
-        for j in range(image.shape[1]):
-            result_[i, j] = __apply_matrix_mask_on_window(image, mask, (i, j))
-    return result_
+
+    image_with_padding = extract_window_padding(image, mask.shape, 'edge')
+    result_ = np.zeros(image_with_padding.shape)
+    
+    for i in range(mask.shape[0]-1, image_with_padding.shape[0]):
+        for j in range(mask.shape[1]-1, image_with_padding.shape[1]):
+            result_[i, j] = __apply_matrix_mask_on_window(image_with_padding, mask, (i, j))
+    return result_\
+        [mask.shape[0] - 1:image.shape[0] + mask.shape[0] - 1, \
+         mask.shape[1] - 1:image.shape[1] + mask.shape[1] - 1]
 
 
 def __apply_array_mask_on_window(image, array_x, array_y, center):
@@ -126,14 +138,37 @@ def __apply_array_mask_on_window(image, array_x, array_y, center):
 
 
 def apply_array_mask(image, array_x, array_y):
-    result_ = np.zeros(image.shape)
-    for i in range(image.shape[0]):
-        for j in range(image.shape[1]):
-            result_[i, j] = __apply_array_mask_on_window(image, array_x, array_y, (i, j))
-    return result_
+    """
+    Convolution of two one dimensional mask on an image. Client must provide
+    two one dimensional Gaussian masks.
+
+    :param image: to be filtered
+    :param array_x: mask in x direction
+    :param array_y: mask in y direction
+    :return:
+    """
+    image_with_padding = extract_window_padding(image, (array_x.shape[0], array_y.shape[0]), 'edge')
+    
+    result_ = np.zeros(image_with_padding.shape)
+    
+    for i in range(array_x.shape[0]-1, image_with_padding.shape[0]):
+        for j in range(array_y.shape[0]-1, image_with_padding.shape[1]):
+            result_[i, j] = __apply_array_mask_on_window(image_with_padding, array_x, array_y, (i, j))
+                        
+    return result_\
+        [array_x.shape[0] - 1:image.shape[0] + array_x.shape[0] - 1, \
+         array_y.shape[0] - 1:image.shape[1] + array_y.shape[0] - 1]
 
 
 def apply_fourier_mask(image, mask):
+    """
+    Apply two dimensional Gaussian filter on image. Using the Fourier Transformations.
+    Client must provide image and two dimensional mask.
+
+    :param image: to be filtered
+    :param mask:
+    :return: new filtered image
+    """
     mask_fft = np.fft.fftshift(np.fft.fft2(mask))
     image_fft = np.fft.fftshift(np.fft.fft2(image))
     new_image_fft = image_fft * mask_fft
