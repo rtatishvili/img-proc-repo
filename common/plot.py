@@ -15,12 +15,18 @@ def plot_multiple_arrays(im_list, figure_title, labels):
     max_row_size = max([len(x) for x in im_list])
     max_col_size = len(im_list)  # TODO: Gigiti
 
-    subplot = 100 * max_col_size + 10 * max_row_size + 1
+    subplot = 1
 
     for row_index, each_row in enumerate(im_list):
         for col_index, each in enumerate(each_row):
-            a = figure.add_subplot(subplot)
-            a.set_title(labels[row_index * max_col_size + col_index], fontsize=10)
+            # print row_index
+            # print '*'
+            # print max_col_size
+            # print '+'
+            # print col_index
+            # print '-----'
+            a = figure.add_subplot(max_col_size, max_row_size, subplot)
+            a.set_title(labels[row_index * max_row_size + col_index], fontsize=10)
             a.imshow(each, cmap=plt.get_cmap('gray'))
             a.get_xaxis().set_visible(False)
             a.get_yaxis().set_visible(False)

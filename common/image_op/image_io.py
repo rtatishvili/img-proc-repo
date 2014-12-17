@@ -20,6 +20,11 @@ def read_image(image_location, as_array):
     return image
 
 
+def normalize_image(array):
+    array = 255 * ((array - array.min()) / (array.max() - array.min()))
+    return array
+
+
 def save_array_as_gray_image(array, location, normalize=False):
     """
     Save array as JPG image. Client must provide the array and the location where the image will be saved.
@@ -31,7 +36,7 @@ def save_array_as_gray_image(array, location, normalize=False):
 
     # normalize array data to range 0..255
     if normalize:
-        array = 255 * ((array - array.min()) / (array.max() - array.min()))
+        array = normalize_image(array)
 
     # convert array to Image object
     result = Image.fromarray(array.astype(np.uint8), 'L')

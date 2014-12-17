@@ -24,10 +24,10 @@ class MyTestCase(unittest.TestCase):
     def tearDownClass(cls):
         print cls.time_results
         labels = ['Fourier filter', '2D - Convolution', '1D - Convolution']
-        plt.title('Performance of different implementation of Gaussian Filter').set_fontsize(26)
-        plt.xlabel('Mask dimension', fontsize=18)
-        plt.ylabel('time (s)', fontsize=18)
-        # plt.yscale('log')
+        plt.title('Performance of different implementation of Gaussian Filter').set_fontsize(28)
+        plt.xlabel('Mask dimension', fontsize=24)
+        plt.ylabel('time (s)', fontsize=24)
+
         plt.xticks(cls.time_results.T[0])
         plt.plot(cls.time_results.T[0], cls.time_results.T[3])
         plt.plot(cls.time_results.T[0], cls.time_results.T[2])
@@ -35,7 +35,9 @@ class MyTestCase(unittest.TestCase):
         plt.legend(labels, loc='upper left',
                    labelspacing=0.0, handletextpad=0.0,
                    handlelength=1.5,
-                   fancybox=True, shadow=True, fontsize=14)
+                   fancybox=True, shadow=True, prop={'size': 18})
+        plt.xticks(fontsize=18)
+        plt.yticks(fontsize=18)
         plt.show()
 
     def test_1d_convolution(self):
