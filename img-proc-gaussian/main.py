@@ -17,7 +17,7 @@ DEFAULT_IMAGES = ['Resources/bauckhage.jpg',
                   'Resources/cat.png',
                   'Resources/asterixGrey.jpg']
 
-times = 2
+times = 10
 
 
 def task_1_1(size=(3, 3)):
@@ -163,15 +163,15 @@ def task_2_1(size=(3, 3)):
                            io.normalize_image(img_dx),
                            io.normalize_image(img_dy),
                            np.sqrt(np.power(img_dx, 2) + np.power(img_dy, 2))]],
-             "Task 1.3", ["original image",
+             "Task 2.1", ["original image",
                               "gradient x",
                               "gradient y",
                               "magnitude of gradient"])
 
-    io.save_array_as_gray_image(img_dx, "../Generated/task_2_1_dx.jpg", normalize=True)
-    io.save_array_as_gray_image(img_dy, "../Generated/task_2_1_dy.jpg", normalize=True)
+    io.save_array_as_gray_image(img_dx, "Generated/task_2_1_dx.jpg", normalize=True)
+    io.save_array_as_gray_image(img_dy, "Generated/task_2_1_dy.jpg", normalize=True)
     io.save_array_as_gray_image(np.sqrt(np.power(img_dx, 2) + np.power(img_dy, 2)),
-                                "../Generated/task_2_1_magnitude.jpg", normalize=True)
+                                "Generated/task_2_1_magnitude.jpg", normalize=True)
 
 
 def main(argv):
