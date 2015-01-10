@@ -35,22 +35,33 @@ def v1(display=True):
 
 def v2(amplitude=64, freq_=1, img_path="Resources/asterixGrey.jpg", display=True, ret=False):
     """
-    Full Sine waves in x direction
-    :type img_path: path-string
+    Full sine wave in x dimension
+    :param amplitude:
+    :param freq_:
+    :param img_path:
+    :param display:
+    :param ret:
+    :return:
     """
     f = read_image(img_path, as_array=True)
     y_in, x_in = np.ogrid[0:f.shape[0], 0:f.shape[1]]
 
+    # Create a sine wave, store in array of size = x dimension of the image
     amp, freq, ph = amplitude, float(freq_) / (float(x_in.shape[1])), 0.
 
     y_out_diff = func_sin(x_in, amp, freq, ph).reshape(x_in.shape[1], 1).astype(int)
+
+    # this stuff can be combined later, but here for readability
     y_out_main = y_in
     x_out = x_in
 
+    # initialize the resulting image with all zeros
+    # incorporate the possible change in size of the image in y dim due to the sine wave
     g = np.zeros((y_out_main.shape[0] + abs(y_out_diff.min()) + abs(y_out_diff.max()), x_out.shape[1]))
 
     for i in xrange(x_out.shape[1]):
         try:
+            # for a particular i in x, set values for all y in g from f
             g[y_out_main + y_out_diff.max() - y_out_diff[i], i] = f[y_out_main, i]
         except IndexError:
             print i
@@ -78,17 +89,22 @@ def v2_1(amplitude=64, wavelength=1, img=None, img_path="Resources/asterixGrey.j
         f = img
     y_in, x_in = np.ogrid[0:f.shape[0], 0:f.shape[1]]
 
+    # Create a sine wave, store in array of size = y dimension of the image
     amp, freq, ph = amplitude, 1. / float(y_in.shape[0] * wavelength), 0.
 
     x_out_diff = func_sin(y_in.reshape(y_in.shape[1], y_in.shape[0]), amp, freq, ph).reshape(1, y_in.shape[0]).astype(
         int)
+
+    # just for readability
     x_out_main = x_in
     y_out = y_in
 
+    # initialize output image, keeping in mind the size of the image in x dim may change
     g = np.zeros((y_out.shape[0], x_out_main.shape[1] + abs(x_out_diff.max()) + abs(x_out_diff.min())))
 
     for j in xrange(y_out.shape[0]):
         try:
+            # for each row in y dim of g and f, copy all values from f and place appropriately in g
             g[j, x_out_main + x_out_diff.max() - x_out_diff[0, j]] = f[j, x_out_main]
         except ValueError:
             print j
