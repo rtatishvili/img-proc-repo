@@ -9,6 +9,7 @@ class Test_calc_histogram_should(unittest.TestCase):
         image_array = []
         actual = hist.calc_histogram(image_array)
         expected = [0] * len(actual)
+
         self.assertEqual(expected, actual, 'Histogram of an empty image should contain only zeroes')
 
 
