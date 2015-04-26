@@ -5,6 +5,11 @@ __pycache__/
 # C extensions
 *.so
 
+# Resources
+*.png
+*.jpg
+*.jpeg
+
 # Distribution / packaging
 .Python
 env/
@@ -53,6 +58,10 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# PyDev
+.project
+.pydevproject
 
 # IDEA
 .idea
