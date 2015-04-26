@@ -21,6 +21,27 @@ class Test(unittest.TestCase):
         
         np.testing.assert_array_equal(expected, actual, 'Quantisation intervals do not have boundaries at almost same distance')
 
+
+    def test_update_boundaries_as_means_of_adjacent_points(self):
+        
+        intervals = q.init_quantisation_intervals(4)
+        points = [25, 75, 125, 175]
+        actual = q.update_quantisation_intervals(intervals, points)        
+        expected = [0, 50, 100, 150, 256]
+        
+        np.testing.assert_array_equal(expected, actual, 'Interval boundaries is not updated as means of adjacent points')
+        
+        
+    def test_update_points_according_to_prob_density(self):
+        
+        points = [32, 96, 160, 224]
+        intervals = [0, 64, 128, 192, 256]
+        image_array = [48, 48, 52, 52, 112, 112, 120, 120, 176, 176, 240, 240]        
+        actual = q.update_quantisation_points(intervals, points, image_array)
+        expected = [50, 116, 176, 240]
+        
+        np.testing.assert_equal(actual, expected, 'Points are not updated according to the probability density of an image')
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test_intervals']
     unittest.main()

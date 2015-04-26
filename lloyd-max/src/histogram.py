@@ -10,11 +10,13 @@ def calc_histogram(image_array):
     return histogram
 
 
-def calc_prob_density(image_array):
+def calc_prob_density(image_array, start=0, end=256):
 
     histogram = calc_histogram(image_array)
+    histogram = histogram[start:end]
+    
     sum_density = float(sum(histogram))
-    prob_density = np.zeros(256)
+    prob_density = np.zeros(end - start)
     
     if sum_density > 0.0:
         prob_density = np.array(histogram) / sum_density
