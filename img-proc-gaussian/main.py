@@ -175,11 +175,11 @@ def task_2_1(size=(3, 3)):
 
 
 def main(argv):
-    task_1_1((15, 15))
+    task_1_1((21, 21))
     task_1_2((15, 15))
     task_1_3((15, 15))
     task_1_4()
-    task_2_1()
+    task_2_1((15,15))
 
 
 if __name__ == '__main__':

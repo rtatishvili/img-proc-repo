@@ -110,7 +110,8 @@ def task_2(image_path, radius_min, radius_max):
                              "Generated/task_2_suppressed_ft.jpg",
                              normalize=True)
     save_array_as_gray_image(abs_output_image,
-                             "Generated/task_2.jpg")
+                             "Generated/task_2.jpg",
+                             normalize=True)
 
     print "Output Images saved at :"
     print "Generated/task_2_ft.jpg"
@@ -204,7 +205,7 @@ def main(argv):
         task_3(image_path_list=DEFAULT_IMAGES[:3])
     elif task == 'all':
         task_1(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
-        task_2(image_path=DEFAULT_IMAGES[0], radius_min=25., radius_max=55.)
+        task_2(image_path=DEFAULT_IMAGES[0], radius_min=2., radius_max=200.)
         task_3(image_path_list=DEFAULT_IMAGES[:2])
     else:
         print "Unrecognized script parameter"
