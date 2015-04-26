@@ -2,20 +2,20 @@ import unittest
 import numpy as np
 import src.quantisation as q
 
-class Test_quantisation_points_should(unittest.TestCase):
+class Test(unittest.TestCase):
 
     
-    def test_by_default_count_to_8(self):
+    def test_init_by_default_count_to_8(self):
         
-        points = q.quantisation_points()
+        points = q.init_quantisation_points()
         actual = len(points)
         expected = 8
         
         np.testing.assert_equal(actual, expected, 'Quantisation points should create 8 intervals by default')
 
-    def test_produce_interval_middle_points(self):
+    def test_init_produce_interval_middle_points(self):
         
-        actual = q.quantisation_points(3)        
+        actual = q.init_quantisation_points(3)        
         expected = [0 * 256 / 3 + 256 / 6,
                     1 * 256 / 3 + 256 / 6,
                     2 * 256 / 3 + 256 / 6]

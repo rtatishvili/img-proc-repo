@@ -2,7 +2,7 @@ import unittest
 import src.histogram as hist
 import numpy as np
 
-class Test_calc_prob_density_should(unittest.TestCase):
+class Test(unittest.TestCase):
 
 
     def test_return_zero_array_for_empty_image(self):
@@ -37,5 +37,5 @@ class Test_calc_prob_density_should(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test_calc_prob_density_should.testName']
+    #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

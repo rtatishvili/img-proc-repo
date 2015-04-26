@@ -1,7 +1,7 @@
 import unittest
 import src.histogram as hist
 
-class Test_calc_histogram_should(unittest.TestCase):
+class Test(unittest.TestCase):
 
 
     def test_return_zero_array_for_empty_image(self):
