@@ -1,6 +1,8 @@
 import unittest
 import numpy as np
+import src.histogram as hist
 import src.quantisation as q
+
 
 class Test(unittest.TestCase):
 
@@ -36,11 +38,12 @@ class Test(unittest.TestCase):
         
         points = [32, 96, 160, 224]
         intervals = [0, 64, 128, 192, 256]
-        image_array = [48, 48, 52, 52, 112, 112, 120, 120, 176, 176, 240, 240]        
-        actual = q.update_quantisation_points(intervals, points, image_array)
-        expected = [50, 116, 176, 240]
+        image_array = [48, 48, 52, 52, 112, 112, 120, 120, 176, 176, 240, 240]
+        prob_density = hist.calc_prob_density(image_array)      
+        actual = q.update_quantisation_points(intervals, points, prob_density)
+        expected = [50.0, 116.0, 176.0, 240.0]
         
-        np.testing.assert_equal(actual, expected, 'Points are not updated according to the probability density of an image')
+        np.testing.assert_allclose(actual, expected, err_msg='Points are not updated according to the probability density of an image')
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test_intervals']

@@ -1,0 +1,1 @@
+This folder content can be overwritten by the application.
