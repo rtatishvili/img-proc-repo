@@ -4,10 +4,14 @@ from src import image_loader, filepath_generator
 
 
 class Test(unittest.TestCase):
+    
+    def setUp(self):
+        unittest.TestCase.setUp(self)
+        self.FOLDERPATH = "train/"
 
 
     def test_load_image_loads_face_image(self):
-        filepath = "../train/face00001.pgm"
+        filepath = self.FOLDERPATH + "face00001.pgm"
         actual = image_loader.load_image(filepath)
         expected = [104, 122, 142, 159, 162, 158, 167]
                 
@@ -54,14 +58,14 @@ class Test(unittest.TestCase):
 
     def test_filepath_counter_return_face00001_for_1(self):        
         actual = filepath_generator.get_filepath_for(1)
-        expected = "../train/face00001.pgm"
+        expected = self.FOLDERPATH + "face00001.pgm"
                          
         npt.assert_equal(actual, expected)
         
                 
     def test_filepath_counter_return_face00016_for_16(self):
         actual = filepath_generator.get_filepath_for(16)
-        expected = "../train/face00016.pgm"
+        expected = self.FOLDERPATH + "face00016.pgm"
         
         npt.assert_equal(actual, expected)
         

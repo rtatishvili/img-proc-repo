@@ -19,4 +19,4 @@ def get_filepath_for(number):
     '''
     zeros = count_zeros(number)        
     
-    return "../train/face" + ("0" * zeros) + str(number) + ".pgm"     
+    return "train/face" + ("0" * zeros) + str(number) + ".pgm"     
