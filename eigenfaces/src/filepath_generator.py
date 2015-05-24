@@ -1,10 +1,10 @@
-from math import log10, floor, ceil
-
+from math import log10, floor
 
 
 def count_zeros(number):
     '''
-    Counts how many zeros will have the file name with particular number by file naming convention.
+    Counts how many zeros will have the file name with
+    particular number by file naming convention.
     :param number: file name number
     :return: number of zeros
     '''
@@ -17,6 +17,6 @@ def get_filepath_for(number):
     :param number: file name number
     :return: relative file path
     '''
-    zeros = count_zeros(number)        
-    
-    return "train/face" + ("0" * zeros) + str(number) + ".pgm"     
+    zeros = count_zeros(number)
+
+    return "train/face" + ("0" * zeros) + str(number) + ".pgm"
