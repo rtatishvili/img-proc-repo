@@ -26,3 +26,14 @@ def mean(X_train):
 
 def zero_mean(X_train):
     return np.subtract(X_train, mean(X_train))
+
+
+def compute_cov(X_train):
+    return np.cov(X_train)
+
+
+def compute_eigenvalues(cov):
+    '''
+    :return: eigenvalues and eigenvectors as a tuple
+    '''
+    return np.linalg.eigh(cov)

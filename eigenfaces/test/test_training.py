@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 import numpy.testing as npt
+from math import sqrt
 import src.training as tr
 
 
@@ -44,6 +45,42 @@ class Test(unittest.TestCase):
                     [-1.5,-0.5, 0.,-2.25]]
 
         npt.assert_equal(actual, expected)
+
+    def test_compute_covariance(self):
+        X = np.array([[2, 4, 6],
+                      [3, 4, 5],
+                      [4, 5, 4],
+                      [5, 6, 3],
+                      [6, 6, 2]])
+
+        actual_C = tr.compute_cov(X.T)
+        expected_C = np.array([[2.5, 1.5, -2.5],
+                               [1.5, 1.0, -1.5],
+                               [-2.5, -1.5, 2.5]])
+
+        npt.assert_equal(actual_C, expected_C)
+
+    def test_covariance_is_symmetric(self):
+        X = np.arange(200).reshape(20, 10)
+        C = tr.compute_cov(X)
+
+        npt.assert_array_equal(C, C.T)
+
+    def test_compute_eigenvalues(self):
+        C = np.array([[0.0, 0.5, 1.0],
+                      [0.5, 0.5, 0.5],
+                      [1.0, 0.5, 0.0]])
+
+        (actual_val, actual_vec) = tr.compute_eigenvalues(C)
+
+        expected_val = np.array([-1.0, 0.0, 1.5])
+        expected_vec = np.array([[ sqrt(1./2.),  sqrt(1./6.), -sqrt(1./3.)],
+                                 [ 0.000000000, -sqrt(2./3.), -sqrt(1./3.)],
+                                 [-sqrt(1./2.),  sqrt(1./6.), -sqrt(1./3.)]])
+
+        npt.assert_allclose(actual_val, expected_val, atol=1e-7)
+        npt.assert_allclose(actual_vec, expected_vec, atol=1e-7)
+
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.test_divide_dataset_into_train_and_test_sets']
