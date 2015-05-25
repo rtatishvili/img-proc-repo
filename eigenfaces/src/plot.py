@@ -5,6 +5,16 @@ from math import sqrt, ceil
 import numpy as np
 
 
+def dist_values(distances):
+
+    plt.plot(distances)
+    plt.xlabel("distances")
+#     plt.ylim(10000, 10000000)
+    plt.yscale('linear')
+    plt.savefig("results/distances.png", format='png')
+    plt.show()
+
+
 
 def eigenvalues(curve_tuple):
     e = np.vstack(curve_tuple).T

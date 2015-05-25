@@ -37,13 +37,18 @@ class Test(unittest.TestCase):
                             [6, 5, 6, 1],
                             [2, 4, 5, 2]])
 
-        actual = tr.zero_mean(X_train)
+        X_test = np.array([[1, 1, 1, 1],
+                           [2, 2, 2, 2],
+                           [3, 3, 3, 3],
+                           [4, 4, 4, 4]])
 
-        expected = [[-1.5, 0.5, 1., 3.75],
-                    [ 0.5,-0.5,-2., 1.75],
-                    [ 2.5, 0.5, 1.,-3.25],
-                    [-1.5,-0.5, 0.,-2.25]]
+        actual = tr.zero_mean(X_test, X_train)
 
+        expected = np.array([[-2.5,-3.5,-4.,-3.25],
+                             [-1.5,-2.5,-3.,-2.25],
+                             [-0.5,-1.5,-2.,-1.25],
+                             [ 0.5,-0.5,-1.,-0.25]])
+        
         npt.assert_equal(actual, expected)
 
     def test_compute_covariance(self):

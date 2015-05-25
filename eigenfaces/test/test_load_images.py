@@ -17,16 +17,16 @@ class Test(unittest.TestCase):
         npt.assert_array_equal(actual[0:7], expected, 'Image loader loads wrong image.')
 
     def test_load_range_of_images(self):
-        images = image_loader.load_images(0, 10)
+        dataset = image_loader.load_images(0, 10)
 
-        npt.assert_equal(images[0, 0:7], [104, 122, 142, 159, 162, 158, 167])
-        npt.assert_equal(images[1, 0:7], [112, 134, 160, 172, 183, 180, 184])
-        npt.assert_equal(images[8, 0:7], [ 64,  77,  85,  91, 101, 108, 112])
-        npt.assert_equal(images[9, 0:7], [ 50,  67,  77,  85,  90,  99, 107])
+        npt.assert_equal(dataset[0, 0:7], [104, 122, 142, 159, 162, 158, 167])
+        npt.assert_equal(dataset[1, 0:7], [112, 134, 160, 172, 183, 180, 184])
+        npt.assert_equal(dataset[8, 0:7], [ 64,  77,  85,  91, 101, 108, 112])
+        npt.assert_equal(dataset[9, 0:7], [ 50,  67,  77,  85,  90,  99, 107])
 
     def test_loaded_images_shape(self):
-        images = image_loader.load_images(0, 10)
-        actual = images.shape
+        dataset = image_loader.load_images(0, 10)
+        actual = dataset.shape
         expected = (10, 361)
 
         npt.assert_equal(actual, expected)
