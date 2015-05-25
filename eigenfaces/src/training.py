@@ -37,3 +37,12 @@ def compute_eigenvalues(cov):
     :return: eigenvalues and eigenvectors as a tuple
     '''
     return np.linalg.eigh(cov)
+
+
+def sort_eigenpairs(eigenvalues, eigenvectors):
+    indices = np.argsort(eigenvalues)[::-1]
+    return eigenvalues[indices], eigenvectors.T[indices].T
+    
+    
+
+

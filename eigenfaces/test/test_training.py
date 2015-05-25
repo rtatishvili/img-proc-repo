@@ -66,7 +66,7 @@ class Test(unittest.TestCase):
 
         npt.assert_array_equal(C, C.T)
 
-    def test_compute_eigenvalues(self):
+    def test_compute_eigenpairs(self):
         C = np.array([[0.0, 0.5, 1.0],
                       [0.5, 0.5, 0.5],
                       [1.0, 0.5, 0.0]])
@@ -81,6 +81,23 @@ class Test(unittest.TestCase):
         npt.assert_allclose(actual_val, expected_val, atol=1e-7)
         npt.assert_allclose(actual_vec, expected_vec, atol=1e-7)
 
+    def test_sort_eigenpairs(self):
+        eigenvalues = np.array([1, 3, 4, 2])
+        eigenvectors = np.array([[1, 3, 4, 2],
+                                 [1, 3, 4, 2],
+                                 [1, 3, 4, 2],
+                                 [1, 3, 4, 2]])
+                                 
+        expected_sorted_eigenvalues = np.array([4, 3, 2, 1])
+        expected_sorted_eigenvectors = np.array([[4, 3, 2, 1],
+                                                 [4, 3, 2, 1],
+                                                 [4, 3, 2, 1],
+                                                 [4, 3, 2, 1]])
+                                                 
+        actual_sorted_eigenvalues, actual_sorted_eigenvectors = tr.sort_eigenpairs(eigenvalues, eigenvectors)
+        
+        npt.assert_equal(actual_sorted_eigenvalues, expected_sorted_eigenvalues)                                         
+        npt.assert_equal(actual_sorted_eigenvectors, expected_sorted_eigenvectors)
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.test_divide_dataset_into_train_and_test_sets']
