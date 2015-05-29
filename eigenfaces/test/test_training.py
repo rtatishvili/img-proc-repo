@@ -48,7 +48,7 @@ class Test(unittest.TestCase):
                              [-1.5,-2.5,-3.,-2.25],
                              [-0.5,-1.5,-2.,-1.25],
                              [ 0.5,-0.5,-1.,-0.25]])
-        
+
         npt.assert_equal(actual, expected)
 
     def test_compute_covariance(self):
@@ -92,17 +92,32 @@ class Test(unittest.TestCase):
                                  [1, 3, 4, 2],
                                  [1, 3, 4, 2],
                                  [1, 3, 4, 2]])
-                                 
+
         expected_sorted_eigenvalues = np.array([4, 3, 2, 1])
         expected_sorted_eigenvectors = np.array([[4, 3, 2, 1],
                                                  [4, 3, 2, 1],
                                                  [4, 3, 2, 1],
                                                  [4, 3, 2, 1]])
-                                                 
+
         actual_sorted_eigenvalues, actual_sorted_eigenvectors = tr.sort_eigenpairs(eigenvalues, eigenvectors)
-        
-        npt.assert_equal(actual_sorted_eigenvalues, expected_sorted_eigenvalues)                                         
+
+        npt.assert_equal(actual_sorted_eigenvalues, expected_sorted_eigenvalues)
         npt.assert_equal(actual_sorted_eigenvectors, expected_sorted_eigenvectors)
+
+    def test_compute_distances_all(self):
+        sample = np.array([[1, 1, 1], [2, 2, 2]])
+
+        dataset = np.array([[1, 0, 1], [2, 3, 4], [3, 3, 3]])
+
+        expected = np.array([[14, 12, 1], [6, 5, 3]]).T
+
+        expected_nearest = [0, 2]
+
+        actual, actual_nearest = tr.compute_distances_all(sample, dataset)
+
+        npt.assert_equal(actual, expected)
+        npt.assert_equal(actual_nearest, expected_nearest)
+
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.test_divide_dataset_into_train_and_test_sets']

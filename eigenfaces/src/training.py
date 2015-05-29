@@ -12,6 +12,7 @@ def divide_dataset_into_train_test(dataset, ratio=0.9):
     :param ratio: the ratio of training set size w.r.t. the data set size
     :return: a tuple containing two arrays, (training set, test set)
     '''
+
     shuffled = random.permutation(dataset)
     boundary = int(len(dataset) * ratio)
     X_train = np.array(shuffled[:boundary])
@@ -41,7 +42,7 @@ def compute_eigenvalues(cov):
 
 def sort_eigenpairs(eigenvalues, eigenvectors):
     indices = np.argsort(eigenvalues)[::-1]
-    return eigenvalues[indices], eigenvectors.T[indices].T
+    return eigenvalues[indices], eigenvectors[:,indices]
 
 
 def extract_sample(array, size):
@@ -58,17 +59,19 @@ def compute_distances_all(sample, dataset):
         distances.append(dist)
 
     distances = np.array(distances).reshape(len(distances), sample.shape[0])
+    indices = np.argsort(distances, axis=0)[::-1]
+    nearest = indices[-1,:]
     distances = np.sort(distances, axis=0)[::-1]
 
-    return distances
+    return distances, nearest
 
 
 def project(X_train, v, cut_index):
-    subspace = v[:, :cut_index]
+    subspace = v[:cut_index, :]
 
     # training data contains image per row
     # so we need to transpose to match
     # eigenvector subspace dimensions
     # and transpose back to match the original
     # dataset transposition
-    return np.dot(subspace.T, X_train.T).T
+    return np.dot(subspace, X_train.T).T

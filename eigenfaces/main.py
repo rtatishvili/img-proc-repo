@@ -77,19 +77,16 @@ if __name__ == '__main__':
 
     print 'Plotting Euclidean distance between some of the test set instances and training set...'
     X_test_sample_m = tr.extract_sample(X_test, TEST_SAMPLE_SIZE)
-    distances = tr.compute_distances_all(X_test_sample_m, X_train)
+    distances, nearest = tr.compute_distances_all(X_test_sample_m, X_train)
     plot.dist_values(distances, filename='distances_highdim.png')
     print 'Done. See distances_highdim.png'
     print ''
 
-    print 'Projecting the dataset into the subspace...'
-    v_sub = v.T[:cut_index].T
-    print v_sub.shape
+    print 'Projecting the dataset and the samples into the subspace...'
     X_train_p = tr.project(X_train_m, v, cut_index)
     X_test_sample_p = tr.project(X_test_sample_m, v, cut_index)
 
-
-    distances_p = tr.compute_distances_all(X_test_sample_p, X_train_p)
+    distances_p, nearest_p = tr.compute_distances_all(X_test_sample_p, X_train_p)
     distances = np.vstack((distances.T, distances_p.T)).T
     distances = np.sqrt(distances)
 
@@ -97,3 +94,7 @@ if __name__ == '__main__':
 
     print 'Done. See X_dist_comparison.png'
     print ''
+
+    print 'Comparing original and subspace nearest neighbors for the samples...'
+    print nearest
+    print nearest_p
