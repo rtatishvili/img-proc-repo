@@ -15,12 +15,12 @@ global X_test
 def compare_datasets_of_different_sizes():
     global X_train
     global X_test
-    
+
     e1, v1 = get_eigenvalues_of_images(X_train[:100])
     e2, v2 = get_eigenvalues_of_images(X_train[:500])
     e3, v3 = get_eigenvalues_of_images(X_train[:1000])
     e4, v4 = get_eigenvalues_of_images(X_train)
-    
+
     plot.eigenvalues((e1, e2, e3, e4))
 
 
@@ -42,7 +42,7 @@ def find_eigenvalue_cutting_point():
         i += 1
 
     plot.sum_of_eigenvalues(eigensum, threshold)
-    plot.sum_of_eigenvalues_range(eigensum, threshold, i)    
+    plot.sum_of_eigenvalues_range(eigensum, threshold, i)
 
     return i
 
@@ -50,41 +50,50 @@ def find_eigenvalue_cutting_point():
 if __name__ == '__main__':
     global X_train
     global X_test
-    
-    print 'Loading image data set'
+
+    print 'Loading image data set...'
     dataset = iml.load_images()
     X_train, X_test = tr.divide_dataset_into_train_test(dataset)
-    X_train = tr.zero_mean(X_train, X_train)
-    X_test = tr.zero_mean(X_test, X_train)    
-    
-#     print 'Comparing data sets of different sizes. See eigenvalues.png'
-#     compare_datasets_of_different_sizes()    
-     
-    print 'Finding first N eigenvalues and eigenvectors of \'high significance\'. See cutting_point.png and cutting_point_zoomed.png'
+    X_train_m = tr.zero_mean(X_train, X_train)
+    X_test_m = tr.zero_mean(X_test, X_train)
+    print 'Done.'
+    print ''
+
+    print 'Comparing data sets of different sizes...'
+    compare_datasets_of_different_sizes()
+    print 'Done. See eigenvalues.png'
+    print ''
+
+    print 'Finding first N eigenvalues and eigenvectors of \'high significance\'...'
     cut_index = find_eigenvalue_cutting_point()
-     
-    print 'Visualizing first ' + str(cut_index) + ' eigenvectors a.k.a. eigenfaces. See eigenfaces.png'
+    print 'Done. See cutting_point.png and cutting_point_zoomed.png'
+    print ''
+
+    print 'Visualizing first ' + str(cut_index) + ' eigenvectors a.k.a. eigenfaces...'
     e, v = get_eigenvalues_of_images(dataset)
     plot.images(v.T, cut_index)
-    
-    print 'Plotting Euclidean distance between some of the test set instances and training set'
-    
-    # TODO refactor to the function
-    from numpy import random
-        
-    sample = random.random_integers(low=0, high=X_test.shape[0], size=TEST_SAMPLE_SIZE)
-    
-    X_test_sample = X_test[sample]    
-    
-    distances = []
-    
-    for i in range(X_train.shape[0]):
-        dist = np.square(np.subtract(X_test_sample, X_train[i,])).sum(axis=1)
-        distances.append(dist)
-    
-    distances = np.array(distances).reshape(len(distances), TEST_SAMPLE_SIZE)
-    distances = np.sort(distances, axis=0)[::-1]
-        
-    plot.dist_values(distances)
-    
-    
+    print 'Done. See eigenfaces.png'
+    print ''
+
+    print 'Plotting Euclidean distance between some of the test set instances and training set...'
+    X_test_sample_m = tr.extract_sample(X_test, TEST_SAMPLE_SIZE)
+    distances = tr.compute_distances_all(X_test_sample_m, X_train)
+    plot.dist_values(distances, filename='distances_highdim.png')
+    print 'Done. See distances_highdim.png'
+    print ''
+
+    print 'Projecting the dataset into the subspace...'
+    v_sub = v.T[:cut_index].T
+    print v_sub.shape
+    X_train_p = tr.project(X_train_m, v, cut_index)
+    X_test_sample_p = tr.project(X_test_sample_m, v, cut_index)
+
+
+    distances_p = tr.compute_distances_all(X_test_sample_p, X_train_p)
+    distances = np.vstack((distances.T, distances_p.T)).T
+    distances = np.sqrt(distances)
+
+    plot.dist_comparison(distances, filename='dist_comparison.png')
+
+    print 'Done. See X_dist_comparison.png'
+    print ''
